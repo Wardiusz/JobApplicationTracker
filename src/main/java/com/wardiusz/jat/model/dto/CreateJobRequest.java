@@ -25,7 +25,13 @@ public class CreateJobRequest {
     private String location;
 
     @Nullable
-    private BigDecimal salary;
+    private BigDecimal salaryLowest;
+
+    @NotBlank(message = "")
+    private BigDecimal salaryHighest;
+
+    @NotBlank(message = "")
+    private String url;
 
     @NotBlank(message = "")
     private LocalDateTime closingAt;

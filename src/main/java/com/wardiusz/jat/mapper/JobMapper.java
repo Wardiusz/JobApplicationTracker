@@ -13,13 +13,13 @@ public class JobMapper {
     public JobDTO toDTO(Job job) {
         if (job == null) return null;
         return JobDTO.builder()
-                .id(job.getId())
                 .company(job.getCompany())
                 .jobPosition(job.getPosition())
-                .salary(job.getSalary())
+                .salaryLowest(job.getSalaryLowest())
+                .salaryHighest(job.getSalaryHighest())
                 .dateApplied(job.getAppliedDate())
                 .dateClosing(job.getClosingDate())
-                .jobUrl(job.getUrl())
+                .url(job.getUrl())
                 .notes(job.getNotes())
                 .archived(job.isArchived())
                 .status(job.getStatus())
@@ -33,10 +33,11 @@ public class JobMapper {
         return Job.builder()
                 .company(dto.getCompany())
                 .position(dto.getPosition())
-                .salary(dto.getSalary())
+                .salaryLowest(dto.getSalaryLowest())
+                .salaryHighest(dto.getSalaryHighest())
                 .appliedDate(dto.getDateApplied())
                 .closingDate(dto.getDateClosing())
-                .url(dto.getJobUrl())
+                .url(dto.getUrl())
                 .notes(dto.getNotes())
                 .status(dto.getStatus())
                 .position(dto.getPosition())
@@ -49,9 +50,10 @@ public class JobMapper {
         if (job == null || dto == null) return;
         job.setCompany(dto.getCompany());
         job.setPosition(dto.getPosition());
-        job.setSalary(dto.getSalary());
+        job.setSalaryLowest(dto.getSalaryLowest());
+        job.setSalaryHighest(dto.getSalaryHighest());
         job.setClosingDate(dto.getDateClosing());
-        job.setUrl(dto.getJobUrl());
+        job.setUrl(dto.getUrl());
         job.setStatus(dto.getStatus());
         job.setPosition(dto.getPosition());
         job.setContract(dto.getContract());

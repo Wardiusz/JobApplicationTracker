@@ -3,6 +3,7 @@ package com.wardiusz.jat.model.dto;
 import com.wardiusz.jat.enums.JobContract;
 import com.wardiusz.jat.enums.JobPosition;
 import com.wardiusz.jat.enums.JobStatus;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -15,24 +16,27 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class JobDTO {
-
-    private Long id;
-
     @NotBlank
     private String company;
 
     @NotBlank
     private JobPosition jobPosition;
 
-    private BigDecimal salary;
+    @Nullable
+    private BigDecimal salaryLowest;
+
+    @NotBlank
+    private BigDecimal salaryHighest;
 
     @NotNull
     private LocalDate dateApplied;
 
     private LocalDate dateClosing;
 
-    private String jobUrl;
+    @NotBlank
+    private String url;
 
+    @Nullable
     private String notes;
 
     private boolean archived;

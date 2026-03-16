@@ -29,7 +29,10 @@ public class Job {
     private String location;
 
     @Column(precision = 10, scale = 2)
-    private BigDecimal salary;
+    private BigDecimal salaryLowest;
+
+    @Column(precision = 10, scale = 2)
+    private BigDecimal salaryHighest;
 
     @CreationTimestamp
     @Column(name = "createdAt", updatable = false)

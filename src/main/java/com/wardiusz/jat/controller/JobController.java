@@ -20,50 +20,33 @@ public class JobController {
 
     // GET /api/jobs?status=&position=&includeArchived=
     @GetMapping
-    public List<JobDTO> getJobs(
-            Authentication auth,
-            @ModelAttribute JobFilter filter) {
-        return jobService.getJobs(
-                auth.getName(), filter);
+    public List<JobDTO> getJobs(Authentication auth, @ModelAttribute JobFilter filter) {
+        return jobService.getJobs(auth.getName(), filter);
     }
 
     // POST /api/jobs
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public JobDTO addJob(
-            Authentication auth,
-            @RequestBody @Valid JobDTO dto) {
-        return jobService.addJob(
-                auth.getName(), dto);
+    public JobDTO addJob(Authentication auth, @RequestBody @Valid JobDTO dto) {
+        return jobService.addJob(auth.getName(), dto);
     }
 
     // PUT /api/jobs/{id}
     @PutMapping("/{id}")
-    public JobDTO updateJob(
-            Authentication auth,
-            @PathVariable Long id,
-            @RequestBody @Valid JobDTO dto) {
-        return jobService.updateJob(
-                auth.getName(), id, dto);
+    public JobDTO updateJob(Authentication auth, @PathVariable Long id, @RequestBody @Valid JobDTO dto) {
+        return jobService.updateJob(auth.getName(), id, dto);
     }
 
     // PATCH /api/jobs/{id}/notes
     @PatchMapping("/{id}/notes")
-    public JobDTO updateNotes(
-            Authentication auth,
-            @PathVariable Long id,
-            @RequestBody String notes) {
-        return jobService.updateNotes(
-                auth.getName(), id, notes);
+    public JobDTO updateNotes(Authentication auth, @PathVariable Long id, @RequestBody String notes) {
+        return jobService.updateNotes(auth.getName(), id, notes);
     }
 
     // PATCH /api/jobs/{id}/archive
     @PatchMapping("/{id}/archive")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void archiveJob(
-            Authentication auth,
-            @PathVariable Long id) {
-        jobService.archiveJob(
-                auth.getName(), id);
+    public void archiveJob(Authentication auth, @PathVariable Long id) {
+        jobService.archiveJob(auth.getName(), id);
     }
 }

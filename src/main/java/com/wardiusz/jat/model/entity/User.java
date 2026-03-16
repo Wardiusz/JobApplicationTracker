@@ -32,13 +32,11 @@ public class User implements UserDetails {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Size(min = 8)
-    @Column(length = 60, nullable = false)
+    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Builder.Default
-    private UserType type = UserType.USER;
+    private UserType type;
 
     @OneToMany(mappedBy = "user",
               cascade = CascadeType.ALL,

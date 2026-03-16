@@ -12,27 +12,23 @@ import java.util.List;
 
 @Repository
 public interface JobRepository extends JpaRepository<Job, Long> {
-    List<Job> findByPersonIdAndArchivedFalse(
-            Long personId);
 
-    List<Job> findByPersonId(
-            Long personId);
+    List<Job> findByUserIdAndArchivedFalse(Long userId);
 
-    List<Job> findByPersonIdAndArchivedTrue(
-            Long personId);
+    List<Job> findByUserId(Long userId);
 
-    Long countByPersonIdAndStatus(
-            Long personId, JobStatus status);
+    List<Job> findByUserIdAndArchivedTrue(Long userId);
 
-    @Query("SELECT j FROM Job j WHERE j.user.id = :personId " +
+    Long countByUserIdAndStatus(Long userId, JobStatus status);
+
+    @Query("SELECT j FROM Job j WHERE j.user.id = :userId " +
             "AND (:archived = true OR j.isArchived = false) " +
             "AND (:status IS NULL OR j.status = :status) " +
             "AND (:position IS NULL OR j.position = :position) " +
             "AND (:company IS NULL OR " +
             "     LOWER(j.company) LIKE LOWER(:company))")
-
     List<Job> findWithFilters(
-            @Param("personId") Long personId,
+            @Param("userId") Long userId,
             @Param("archived") boolean archived,
             @Param("status") JobStatus status,
             @Param("position") JobPosition position,
