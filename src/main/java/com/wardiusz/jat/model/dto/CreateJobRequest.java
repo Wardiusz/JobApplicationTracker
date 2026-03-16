@@ -4,6 +4,7 @@ import com.wardiusz.jat.enums.JobContract;
 import com.wardiusz.jat.enums.JobPosition;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,9 +26,10 @@ public class CreateJobRequest {
     private String location;
 
     @Nullable
+    @Positive
     private BigDecimal salaryLowest;
 
-    @NotBlank(message = "")
+    @Positive
     private BigDecimal salaryHighest;
 
     @NotBlank(message = "")

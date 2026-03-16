@@ -14,7 +14,8 @@ public class JobMapper {
         if (job == null) return null;
         return JobDTO.builder()
                 .company(job.getCompany())
-                .jobPosition(job.getPosition())
+                .location(job.getLocation())
+                .position(job.getPosition())
                 .salaryLowest(job.getSalaryLowest())
                 .salaryHighest(job.getSalaryHighest())
                 .dateApplied(job.getAppliedDate())
@@ -32,6 +33,7 @@ public class JobMapper {
         if (dto == null) return null;
         return Job.builder()
                 .company(dto.getCompany())
+                .location(dto.getLocation())
                 .position(dto.getPosition())
                 .salaryLowest(dto.getSalaryLowest())
                 .salaryHighest(dto.getSalaryHighest())
@@ -49,6 +51,7 @@ public class JobMapper {
     public void updateEntity(Job job, JobDTO dto) {
         if (job == null || dto == null) return;
         job.setCompany(dto.getCompany());
+        job.setLocation(dto.getLocation());
         job.setPosition(dto.getPosition());
         job.setSalaryLowest(dto.getSalaryLowest());
         job.setSalaryHighest(dto.getSalaryHighest());

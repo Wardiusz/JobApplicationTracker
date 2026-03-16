@@ -32,6 +32,6 @@ public interface JobRepository extends JpaRepository<Job, Long> {
             @Param("archived") boolean archived,
             @Param("status") JobStatus status,
             @Param("position") JobPosition position,
-            @Param("companyName") String companyName
+            @Param("company") String company
     );
 }

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 
-@Service
 public interface JobService {
 
     List<JobDTO> getJobs(String username, JobFilter filter);

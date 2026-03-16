@@ -20,7 +20,7 @@ public class JobDTO {
     private String company;
 
     @NotBlank
-    private JobPosition jobPosition;
+    private String location;
 
     @Nullable
     private BigDecimal salaryLowest;

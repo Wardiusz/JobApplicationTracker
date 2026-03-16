@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -24,6 +25,7 @@ import static com.wardiusz.jat.config.SecurityConfig.passwordEncoder;
 public class AuthServiceImpl implements AuthService {
 
     private AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private JwtTokenProvider jwtTokenProvider;
 
@@ -53,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
         User user = User.builder()
                 .email(registerDTO.getEmail())
                 .username(registerDTO.getUsername())
-                .password(passwordEncoder().encode(registerDTO.getPassword()))
+                .password(passwordEncoder.encode(registerDTO.getPassword()))
                 .type(UserType.USER)
                 .jobs(new ArrayList<>())
                 .build();
