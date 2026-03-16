@@ -3,7 +3,6 @@ package com.wardiusz.jat.controller;
 import com.wardiusz.jat.auth.dto.LoginDTO;
 import com.wardiusz.jat.auth.dto.RegisterDTO;
 import com.wardiusz.jat.auth.dto.response.JwtAuthResponse;
-import com.wardiusz.jat.model.request.RegisterRequest;
 import com.wardiusz.jat.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

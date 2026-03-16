@@ -2,8 +2,6 @@ package com.wardiusz.jat.config;
 
 import com.wardiusz.jat.auth.JwtAuthenticationEntryPoint;
 import com.wardiusz.jat.auth.JwtAuthenticationFilter;
-import com.wardiusz.jat.enums.UserType;
-import com.wardiusz.jat.model.entity.User;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,11 +12,9 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -42,12 +38,6 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> {
-//                    authorize.requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN");
-//                    authorize.requestMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN");
-//                    authorize.requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN");
-//                    authorize.requestMatchers(HttpMethod.GET, "/api/**").hasAnyRole("ADMIN", "USER");
-//                    authorize.requestMatchers(HttpMethod.PATCH, "/api/**").hasAnyRole("ADMIN", "USER");
-//                    authorize.requestMatchers(HttpMethod.GET, "/api/**").permitAll();
                     authorize.requestMatchers("/api/auth/**").permitAll();
                     authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
                     authorize.anyRequest().authenticated();
