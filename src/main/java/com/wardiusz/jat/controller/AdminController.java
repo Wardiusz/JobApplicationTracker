@@ -1,5 +1,6 @@
 package com.wardiusz.jat.controller;
 
+import com.wardiusz.jat.model.dto.UserDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,7 @@ public class AdminController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/user222")
-    public ResponseEntity<String> helloUser(){
-        return ResponseEntity.ok("Hello User");
+    public ResponseEntity<String> helloUser(UserDTO user){
+        return ResponseEntity.ok("Hello " + user.getUsername());
     }
 }

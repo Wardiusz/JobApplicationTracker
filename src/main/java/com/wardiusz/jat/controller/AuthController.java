@@ -1,7 +1,7 @@
 package com.wardiusz.jat.controller;
 
-import com.wardiusz.jat.security.dto.LoginDTO;
-import com.wardiusz.jat.security.dto.RegisterDTO;
+import com.wardiusz.jat.security.dto.LoginRequest;
+import com.wardiusz.jat.security.dto.RegisterRequest;
 import com.wardiusz.jat.security.dto.JwtAuthResponse;
 import com.wardiusz.jat.service.AuthService;
 import lombok.AllArgsConstructor;
@@ -20,8 +20,8 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDTO loginDto){
-        String token = authService.login(loginDto);
+    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginRequest loginRequest){
+        String token = authService.login(loginRequest);
 
         JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
         jwtAuthResponse.setAccessToken(token);
@@ -30,8 +30,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<JwtAuthResponse> register(@RequestBody RegisterDTO registerDTO) {
-        String token = authService.register(registerDTO);
+    public ResponseEntity<JwtAuthResponse> register(@RequestBody RegisterRequest registerRequest) {
+        String token = authService.register(registerRequest);
 
         JwtAuthResponse response = new JwtAuthResponse();
         response.setAccessToken(token);

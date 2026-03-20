@@ -26,7 +26,7 @@ public interface JobRepository extends JpaRepository<Job, Long> {
             "AND (:status IS NULL OR j.status = :status) " +
             "AND (:position IS NULL OR j.position = :position) " +
             "AND (:company IS NULL OR " +
-            "     LOWER(j.company) LIKE LOWER(:company))")
+            "     LOWER(j.company) LIKE LOWER(CAST(:company AS string)))")
     List<Job> findWithFilters(
             @Param("userId") Long userId,
             @Param("archived") boolean archived,

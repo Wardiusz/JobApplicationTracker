@@ -1,8 +1,8 @@
 package com.wardiusz.jat.service;
 
 import com.wardiusz.jat.security.JwtTokenProvider;
-import com.wardiusz.jat.security.dto.LoginDTO;
-import com.wardiusz.jat.security.dto.RegisterDTO;
+import com.wardiusz.jat.security.dto.LoginRequest;
+import com.wardiusz.jat.security.dto.RegisterRequest;
 import com.wardiusz.jat.enums.UserType;
 import com.wardiusz.jat.model.entity.User;
 import com.wardiusz.jat.repository.UserRepository;
@@ -28,11 +28,11 @@ public class AuthServiceImpl implements AuthService {
     private JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public String login(LoginDTO loginDTO) {
+    public String login(LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDTO.getUsername(),
-                loginDTO.getPassword()
+                loginRequest.getUsername(),
+                loginRequest.getPassword()
         ));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -41,23 +41,23 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String register(RegisterDTO registerDTO) {
-        if (userRepository.findByUsername(registerDTO.getUsername()).isPresent()) {
+    public String register(RegisterRequest registerRequest) {
+        if (userRepository.findByUsername(registerRequest.getUsername()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Username is taken.");
         }
 
-        if (userRepository.findByEmail(registerDTO.getEmail()).isPresent()) {
+        if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Email is taken.");
         }
 
-        if (registerDTO.getPassword().length() < 8) {
+        if (registerRequest.getPassword().length() < 8) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Password too short. Need to be at least 8 characters long.");
         }
 
         User user = User.builder()
-                .email(registerDTO.getEmail())
-                .username(registerDTO.getUsername())
-                .password(passwordEncoder.encode(registerDTO.getPassword()))
+                .email(registerRequest.getEmail())
+                .username(registerRequest.getUsername())
+                .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .type(UserType.USER)
                 .jobs(new ArrayList<>())
                 .build();

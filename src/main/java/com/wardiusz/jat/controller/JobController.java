@@ -25,7 +25,7 @@ public class JobController {
     }
 
     // POST /api/jobs
-    @PostMapping
+    @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public JobDTO addJob(Authentication auth, @RequestBody @Valid JobDTO dto) {
         return jobService.addJob(auth.getName(), dto);
