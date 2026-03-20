@@ -1,4 +1,4 @@
-package com.wardiusz.jat.auth;
+package com.wardiusz.jat.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

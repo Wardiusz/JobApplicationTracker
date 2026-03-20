@@ -1,4 +1,4 @@
-package com.wardiusz.jat.auth.dto.response;
+package com.wardiusz.jat.security.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

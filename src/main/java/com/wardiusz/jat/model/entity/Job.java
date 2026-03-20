@@ -6,12 +6,13 @@ import com.wardiusz.jat.enums.JobStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "job")
+@Table(name = "jobs")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter @Setter
@@ -37,6 +38,8 @@ public class Job {
     @Column(name = "createdAt", updatable = false)
     private LocalDate appliedDate;
 
+    @DateTimeFormat
+    @Column(name = "closingdAt", updatable = false)
     private LocalDate closingDate;
 
     @Enumerated(EnumType.STRING)

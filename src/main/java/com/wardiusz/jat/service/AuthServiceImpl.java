@@ -1,8 +1,8 @@
 package com.wardiusz.jat.service;
 
-import com.wardiusz.jat.auth.JwtTokenProvider;
-import com.wardiusz.jat.auth.dto.LoginDTO;
-import com.wardiusz.jat.auth.dto.RegisterDTO;
+import com.wardiusz.jat.security.JwtTokenProvider;
+import com.wardiusz.jat.security.dto.LoginDTO;
+import com.wardiusz.jat.security.dto.RegisterDTO;
 import com.wardiusz.jat.enums.UserType;
 import com.wardiusz.jat.model.entity.User;
 import com.wardiusz.jat.repository.UserRepository;
@@ -17,8 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
-
-import static com.wardiusz.jat.config.SecurityConfig.passwordEncoder;
 
 @Service
 @AllArgsConstructor
@@ -45,11 +43,15 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String register(RegisterDTO registerDTO) {
         if (userRepository.findByUsername(registerDTO.getUsername()).isPresent()) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Username zajęty");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Username is taken.");
         }
 
         if (userRepository.findByEmail(registerDTO.getEmail()).isPresent()) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Email zajęty");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Email is taken.");
+        }
+
+        if (registerDTO.getPassword().length() < 8) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Password too short. Need to be at least 8 characters long.");
         }
 
         User user = User.builder()
@@ -63,4 +65,5 @@ public class AuthServiceImpl implements AuthService {
         userRepository.save(user);
         return jwtTokenProvider.generateToken(user);
     }
+
 }

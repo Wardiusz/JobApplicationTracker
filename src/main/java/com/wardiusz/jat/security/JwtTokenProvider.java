@@ -1,4 +1,4 @@
-package com.wardiusz.jat.auth;
+package com.wardiusz.jat.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -49,11 +49,15 @@ public class JwtTokenProvider {
     }
 
     public boolean validateToken(String token) {
-        Jwts.parser()
-                .verifyWith((SecretKey) getKey())
-                .build()
-                .parse(token);
-        return true;
+        try {
+            Jwts.parser()
+                    .verifyWith((SecretKey) getKey())
+                    .build()
+                    .parseSignedClaims(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private Key getKey() {

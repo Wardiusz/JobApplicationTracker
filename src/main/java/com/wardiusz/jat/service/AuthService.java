@@ -1,7 +1,7 @@
 package com.wardiusz.jat.service;
 
-import com.wardiusz.jat.auth.dto.LoginDTO;
-import com.wardiusz.jat.auth.dto.RegisterDTO;
+import com.wardiusz.jat.security.dto.LoginDTO;
+import com.wardiusz.jat.security.dto.RegisterDTO;
 
 public interface AuthService {
     String login(LoginDTO loginDTO);

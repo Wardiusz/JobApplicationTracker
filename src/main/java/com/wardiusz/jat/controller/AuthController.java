@@ -1,8 +1,8 @@
 package com.wardiusz.jat.controller;
 
-import com.wardiusz.jat.auth.dto.LoginDTO;
-import com.wardiusz.jat.auth.dto.RegisterDTO;
-import com.wardiusz.jat.auth.dto.response.JwtAuthResponse;
+import com.wardiusz.jat.security.dto.LoginDTO;
+import com.wardiusz.jat.security.dto.RegisterDTO;
+import com.wardiusz.jat.security.dto.JwtAuthResponse;
 import com.wardiusz.jat.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,6 +28,7 @@ public class AuthController {
 
         return ResponseEntity.ok(jwtAuthResponse);
     }
+
     @PostMapping("/register")
     public ResponseEntity<JwtAuthResponse> register(@RequestBody RegisterDTO registerDTO) {
         String token = authService.register(registerDTO);

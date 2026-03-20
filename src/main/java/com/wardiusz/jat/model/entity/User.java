@@ -2,7 +2,6 @@ package com.wardiusz.jat.model.entity;
 
 import com.wardiusz.jat.enums.UserType;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,13 +20,12 @@ import java.util.List;
 @Builder
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(unique = true, nullable = false)
     private String username;
 
-    @Email
     @Column(unique = true, nullable = false)
     private String email;
 
@@ -44,8 +42,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(
-                "ROLE_" + type.name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + type.name()));
     }
 
     @Override
