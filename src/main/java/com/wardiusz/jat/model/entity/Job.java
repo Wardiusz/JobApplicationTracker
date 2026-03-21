@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -34,12 +35,13 @@ public class Job {
     @Column(precision = 10, scale = 2)
     private BigDecimal salaryHighest;
 
+    @DateTimeFormat
     @CreationTimestamp
     @Column(name = "createdAt", updatable = false)
     private LocalDate appliedDate;
 
     @DateTimeFormat
-    @Column(name = "closingdAt", updatable = false)
+    @Column(name = "closingAt")
     private LocalDate closingDate;
 
     @Enumerated(EnumType.STRING)

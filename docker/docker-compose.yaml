@@ -1,0 +1,11 @@
+services:
+  postgres-db:
+    image: 'postgres:latest'
+    container_name: jat-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: postgres-jat-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
