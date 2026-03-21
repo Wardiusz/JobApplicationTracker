@@ -1,4 +1,4 @@
-package com.wardiusz.jat.model.dto;
+package com.wardiusz.jat.model.request;
 
 import com.wardiusz.jat.enums.UserType;
 import jakarta.validation.constraints.Email;
@@ -16,15 +16,17 @@ import lombok.NoArgsConstructor;
 public class CreateUserRequest {
 
     @NotBlank
-    String username;
+    @Size(min = 3, max = 20, message = "Nazwa użytkownika musi zawierać od 3 do 20 znaków")
+    private String username;
 
     @Email
-    @NotBlank
-    String email;
+    @NotBlank(message = "Adres email nie może być pusty")
+    private String email;
 
-    @Size(min = 8)
     @NotBlank
-    String password;
+    @Size(min = 8, message = "Hasło musi zawierać minimum 8 znaków")
+    private String password;
 
-    UserType userType = UserType.USER;
+    UserType userType;
+
 }

@@ -4,37 +4,38 @@ import com.wardiusz.jat.model.dto.JobDTO;
 import com.wardiusz.jat.model.dto.JobFilter;
 import com.wardiusz.jat.service.JobService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
-@RequestMapping("/api/jobs")
-@RequiredArgsConstructor
+@RequestMapping("/api/v1/jobs")
 public class JobController {
 
     private final JobService jobService;
 
     // GET /api/jobs?status=&position=&includeArchived=
     @GetMapping
-    public List<JobDTO> getJobs(Authentication auth, @ModelAttribute JobFilter filter) {
-        return jobService.getJobs(auth.getName(), filter);
+    public ResponseEntity<List<JobDTO>> getJobs(Authentication auth, @ModelAttribute JobFilter filter) {
+        return ResponseEntity.ok(jobService.getJobs(auth.getName(), filter));
     }
 
     // POST /api/jobs
-    @PostMapping("/add")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public JobDTO addJob(Authentication auth, @RequestBody @Valid JobDTO dto) {
-        return jobService.addJob(auth.getName(), dto);
+    public ResponseEntity<JobDTO> addJob(Authentication auth, @RequestBody @Valid JobDTO dto) {
+        return ResponseEntity.ok(jobService.addJob(auth.getName(), dto));
     }
 
     // PUT /api/jobs/{id}
     @PutMapping("/{id}")
-    public JobDTO updateJob(Authentication auth, @PathVariable Long id, @RequestBody @Valid JobDTO dto) {
-        return jobService.updateJob(auth.getName(), id, dto);
+    public ResponseEntity<JobDTO> updateJob(Authentication auth, @PathVariable Long id, @RequestBody @Valid JobDTO dto) {
+        return ResponseEntity.ok(jobService.updateJob(auth.getName(), id, dto));
     }
 
     // PATCH /api/jobs/{id}/notes

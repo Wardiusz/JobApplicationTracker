@@ -1,7 +1,7 @@
 package com.wardiusz.jat.service;
 
 import com.wardiusz.jat.mapper.UserMapper;
-import com.wardiusz.jat.model.dto.CreateUserRequest;
+import com.wardiusz.jat.model.request.CreateUserRequest;
 import com.wardiusz.jat.model.dto.UserDTO;
 import com.wardiusz.jat.model.entity.User;
 import com.wardiusz.jat.repository.UserRepository;

@@ -22,10 +22,8 @@ public class JobDTO {
     @NotBlank
     private String location;
 
-    @Nullable
     private BigDecimal salaryLowest;
 
-    @NotBlank
     private BigDecimal salaryHighest;
 
     @NotNull
