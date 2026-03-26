@@ -1,4 +1,4 @@
-package com.wardiusz.jat.model.dto;
+package com.wardiusz.jat.dto;
 
 import com.wardiusz.jat.enums.JobContract;
 import com.wardiusz.jat.enums.JobPosition;
@@ -16,6 +16,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class JobDTO {
+    @NotNull
+    private long id;
+
     @NotBlank
     private String company;
 

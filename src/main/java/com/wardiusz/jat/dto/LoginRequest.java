@@ -1,4 +1,4 @@
-package com.wardiusz.jat.security.dto;
+package com.wardiusz.jat.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

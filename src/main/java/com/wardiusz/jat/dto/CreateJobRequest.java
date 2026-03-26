@@ -1,4 +1,4 @@
-package com.wardiusz.jat.model.request;
+package com.wardiusz.jat.dto;
 
 import com.wardiusz.jat.enums.JobContract;
 import com.wardiusz.jat.enums.JobPosition;

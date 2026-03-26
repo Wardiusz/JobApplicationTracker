@@ -1,4 +1,4 @@
-package com.wardiusz.jat.model.dto;
+package com.wardiusz.jat.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

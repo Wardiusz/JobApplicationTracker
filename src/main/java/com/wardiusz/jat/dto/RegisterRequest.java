@@ -1,4 +1,4 @@
-package com.wardiusz.jat.security.dto;
+package com.wardiusz.jat.dto;
 
 import com.wardiusz.jat.enums.UserType;
 import jakarta.validation.constraints.Email;
