@@ -1,0 +1,21 @@
+jwt:
+    secret: ${DB_SECRET}
+    access:
+        expiration: 900000
+    refresh:
+        expiration: 604800000
+spring:
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        username: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
+        url: jdbc:postgresql://localhost:5432/postgres-jat-db
+    flyway:
+        enabled: true
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        hibernate:
+            ddl-auto: validate
+        show-sql: true
+    config:
+        import: env.properties
