@@ -1,6 +1,6 @@
 package com.wardiusz.jat.mapper;
 
-import com.wardiusz.jat.model.dto.JobDTO;
+import com.wardiusz.jat.dto.JobDTO;
 import com.wardiusz.jat.model.entity.Job;
 import com.wardiusz.jat.model.entity.User;
 import lombok.experimental.UtilityClass;
@@ -13,6 +13,7 @@ public class JobMapper {
     public JobDTO toDTO(Job job) {
         if (job == null) return null;
         return JobDTO.builder()
+                .id(job.getId())
                 .company(job.getCompany())
                 .location(job.getLocation())
                 .position(job.getPosition())
@@ -32,6 +33,7 @@ public class JobMapper {
     public Job toEntity(JobDTO dto, User user) {
         if (dto == null) return null;
         return Job.builder()
+                .id(dto.getId())
                 .company(dto.getCompany())
                 .location(dto.getLocation())
                 .position(dto.getPosition())
@@ -50,6 +52,7 @@ public class JobMapper {
 
     public void updateEntity(Job job, JobDTO dto) {
         if (job == null || dto == null) return;
+        job.setId(dto.getId());
         job.setCompany(dto.getCompany());
         job.setLocation(dto.getLocation());
         job.setPosition(dto.getPosition());

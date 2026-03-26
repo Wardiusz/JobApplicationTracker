@@ -1,8 +1,8 @@
 package com.wardiusz.jat.service;
 
 import com.wardiusz.jat.security.JwtTokenProvider;
-import com.wardiusz.jat.security.dto.LoginRequest;
-import com.wardiusz.jat.security.dto.RegisterRequest;
+import com.wardiusz.jat.dto.LoginRequest;
+import com.wardiusz.jat.dto.RegisterRequest;
 import com.wardiusz.jat.enums.UserType;
 import com.wardiusz.jat.model.entity.User;
 import com.wardiusz.jat.repository.UserRepository;
@@ -37,7 +37,7 @@ public class AuthServiceImpl implements AuthService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return jwtTokenProvider.generateToken(authentication);
+        return jwtTokenProvider.generateAccessToken(authentication.getName());
     }
 
     @Override
@@ -63,7 +63,12 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         userRepository.save(user);
-        return jwtTokenProvider.generateToken(user);
-    }
 
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                registerRequest.getUsername(),
+                registerRequest.getPassword()
+        ));
+
+        return jwtTokenProvider.generateAccessToken(authentication.getName());
+    }
 }

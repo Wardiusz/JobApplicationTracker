@@ -1,7 +1,7 @@
 package com.wardiusz.jat.controller;
 
-import com.wardiusz.jat.model.dto.JobDTO;
-import com.wardiusz.jat.model.dto.JobFilter;
+import com.wardiusz.jat.dto.JobDTO;
+import com.wardiusz.jat.dto.JobFilter;
 import com.wardiusz.jat.service.JobService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

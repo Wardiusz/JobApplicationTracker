@@ -1,6 +1,6 @@
 package com.wardiusz.jat.controller;
 
-import com.wardiusz.jat.model.dto.UserDTO;
+import com.wardiusz.jat.dto.UserDTO;
 import com.wardiusz.jat.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

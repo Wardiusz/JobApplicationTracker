@@ -1,7 +1,7 @@
 package com.wardiusz.jat.service;
 
-import com.wardiusz.jat.model.request.CreateUserRequest;
-import com.wardiusz.jat.model.dto.UserDTO;
+import com.wardiusz.jat.dto.CreateUserRequest;
+import com.wardiusz.jat.dto.UserDTO;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {

@@ -1,7 +1,7 @@
 package com.wardiusz.jat.service;
 
-import com.wardiusz.jat.model.dto.JobDTO;
-import com.wardiusz.jat.model.dto.JobFilter;
+import com.wardiusz.jat.dto.JobDTO;
+import com.wardiusz.jat.dto.JobFilter;
 import com.wardiusz.jat.model.entity.Job;
 import com.wardiusz.jat.model.entity.User;
 import com.wardiusz.jat.repository.JobRepository;
@@ -25,13 +25,16 @@ public class JobServiceImpl implements JobService {
 
     public List<JobDTO> getJobs(String username, JobFilter filter) {
         User user = getUser(username);
+
         return JobMapper.toDTOList(
                 jobRepository.findWithFilters(
                         user.getId(),
                         filter.isIncludeArchived(),
                         filter.getStatus(),
                         filter.getPosition(),
-                        filter.getCompanyName()));
+                        filter.getCompanyName()
+                )
+        );
     }
 
     public JobDTO addJob(String username, JobDTO dto) {
@@ -44,33 +47,32 @@ public class JobServiceImpl implements JobService {
     public JobDTO updateJob(String username, Long id, JobDTO dto) {
         Job job = getOwnedJob(username, id);
         JobMapper.updateEntity(job, dto);
-        return JobMapper.toDTO(
-                jobRepository.save(job));
+
+        return JobMapper.toDTO(jobRepository.save(job));
     }
 
     public JobDTO updateNotes(String username, Long id, String notes) {
         Job job = getOwnedJob(username, id);
         job.setNotes(notes);
-        return JobMapper.toDTO(
-                jobRepository.save(job));
+
+        return JobMapper.toDTO(jobRepository.save(job));
     }
 
     public void archiveJob(String username, Long id) {
         Job job = getOwnedJob(username, id);
         job.setArchived(true);
+
         jobRepository.save(job);
     }
 
     public Job getOwnedJob(String username, Long id) {
         Job job = jobRepository.findById(id)
                 .orElseThrow(() -> new
-                        ResponseStatusException(
-                        HttpStatus.NOT_FOUND));
-        if (!job.getUser().getUsername()
-                .equals(username)) {
-            throw new ResponseStatusException(
-                    HttpStatus.FORBIDDEN);
-        }
+                        ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        if (!job.getUser().getUsername().equals(username))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+
         return job;
     }
 
