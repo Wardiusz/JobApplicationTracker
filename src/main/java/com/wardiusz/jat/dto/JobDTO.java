@@ -6,7 +6,9 @@ import com.wardiusz.jat.enums.JobStatus;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
+import org.hibernate.validator.constraints.URL;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -16,8 +18,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class JobDTO {
-    @NotNull
-    private long id;
+
+    private Long id;
 
     @NotBlank
     private String company;
@@ -25,8 +27,10 @@ public class JobDTO {
     @NotBlank
     private String location;
 
+    @Positive
     private BigDecimal salaryLowest;
 
+    @Positive
     private BigDecimal salaryHighest;
 
     @NotNull
@@ -37,7 +41,6 @@ public class JobDTO {
     @NotBlank
     private String url;
 
-    @Nullable
     private String notes;
 
     private boolean archived;
