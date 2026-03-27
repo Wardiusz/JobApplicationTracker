@@ -33,7 +33,6 @@ public class JobMapper {
     public Job toEntity(JobDTO dto, User user) {
         if (dto == null) return null;
         return Job.builder()
-                .id(dto.getId())
                 .company(dto.getCompany())
                 .location(dto.getLocation())
                 .position(dto.getPosition())
@@ -52,7 +51,6 @@ public class JobMapper {
 
     public void updateEntity(Job job, JobDTO dto) {
         if (job == null || dto == null) return;
-        job.setId(dto.getId());
         job.setCompany(dto.getCompany());
         job.setLocation(dto.getLocation());
         job.setPosition(dto.getPosition());
@@ -61,8 +59,8 @@ public class JobMapper {
         job.setClosingDate(dto.getDateClosing());
         job.setUrl(dto.getUrl());
         job.setStatus(dto.getStatus());
-        job.setPosition(dto.getPosition());
         job.setContract(dto.getContract());
+        job.setArchived(dto.isArchived());
     }
 
     public List<JobDTO> toDTOList(List<Job> jobs) {
