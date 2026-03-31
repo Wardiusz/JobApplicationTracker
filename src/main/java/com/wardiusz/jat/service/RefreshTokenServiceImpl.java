@@ -26,7 +26,6 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // delete old refresh token if exists
         refreshTokenRepository.deleteByUser(user);
 
         RefreshToken refreshToken = RefreshToken.builder()
@@ -57,6 +56,6 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
     @Override
     public void deleteByUser(String username) {
-        refreshTokenRepository.deleteByUser(userRepository.findByUsername(username).get());
+        userRepository.findByUsername(username).ifPresent(refreshTokenRepository::deleteByUser);
     }
 }

@@ -32,8 +32,8 @@ public class JobController {
         return ResponseEntity.ok(jobService.addJob(auth.getName(), dto));
     }
 
-    // PUT /api/jobs/{id}
-    @PutMapping("/{id}")
+    // PUT /api/jobs/{id}/update
+    @PutMapping("/{id}/update")
     public ResponseEntity<JobDTO> updateJob(Authentication auth, @PathVariable Long id, @RequestBody @Valid JobDTO dto) {
         return ResponseEntity.ok(jobService.updateJob(auth.getName(), id, dto));
     }
@@ -49,5 +49,12 @@ public class JobController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void archiveJob(Authentication auth, @PathVariable Long id) {
         jobService.archiveJob(auth.getName(), id);
+    }
+
+    // PATCH /api/jobs/{id}/unarchive
+    @PatchMapping("/{id}/unarchive")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void unArchiveJob(Authentication auth, @PathVariable Long id) {
+        jobService.unArchiveJob(auth.getName(), id);
     }
 }

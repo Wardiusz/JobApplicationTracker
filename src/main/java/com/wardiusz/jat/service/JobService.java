@@ -20,6 +20,8 @@ public interface JobService {
 
     void archiveJob(String username, Long id);
 
+    void unArchiveJob(String username, Long id);
+
     Job getOwnedJob(String username, Long id);
 
     User getUser(String username);

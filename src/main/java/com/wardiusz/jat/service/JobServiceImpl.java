@@ -65,6 +65,13 @@ public class JobServiceImpl implements JobService {
         jobRepository.save(job);
     }
 
+    public void unArchiveJob(String username, Long id) {
+        Job job = getOwnedJob(username, id);
+        job.setArchived(false);
+
+        jobRepository.save(job);
+    }
+
     public Job getOwnedJob(String username, Long id) {
         Job job = jobRepository.findById(id)
                 .orElseThrow(() -> new
