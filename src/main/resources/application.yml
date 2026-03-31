@@ -3,7 +3,12 @@ jwt:
     access:
         expiration: 900000
     refresh:
-        expiration: 21600000
+        expiration: 86400000
+management:
+    endpoints:
+        web:
+            exposure:
+                include: "*"
 spring:
     datasource:
         driver-class-name: org.postgresql.Driver
@@ -19,3 +24,17 @@ spring:
         show-sql: true
     config:
         import: env.properties
+app:
+    cookie:
+        secure: false
+#    mail:
+#        host: smtp.gmail.com
+#        port: 587
+#        username: ${MAIL_ADDRESS}
+#        password: ${MAIL_PASSWORD}
+#        properties:
+#            mail:
+#                smtp:
+#                    auth: true
+#                    starttls:
+#                        enable: true

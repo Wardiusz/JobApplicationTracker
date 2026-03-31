@@ -51,8 +51,12 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
         return refreshToken;
     }
 
-    //logout
     public void deleteByToken(String token) {
         refreshTokenRepository.deleteByToken(token);
+    }
+
+    @Override
+    public void deleteByUser(String username) {
+        refreshTokenRepository.deleteByUser(userRepository.findByUsername(username).get());
     }
 }
