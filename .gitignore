@@ -31,5 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
-/src/main/java/com/wardiusz/jat/security/
 /src/main/resources/env.properties
