@@ -1,4 +1,4 @@
-package com.wardiusz.jat.model.entity;
+package com.wardiusz.jat.entity;
 
 import com.wardiusz.jat.enums.JobContract;
 import com.wardiusz.jat.enums.JobPosition;
@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

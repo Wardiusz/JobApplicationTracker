@@ -1,6 +1,6 @@
 package com.wardiusz.jat.service;
 
-import com.wardiusz.jat.model.entity.RefreshToken;
+import com.wardiusz.jat.entity.RefreshToken;
 
 public interface RefreshTokenService {
 

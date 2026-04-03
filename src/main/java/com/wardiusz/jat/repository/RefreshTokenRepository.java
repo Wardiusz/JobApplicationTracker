@@ -1,7 +1,7 @@
 package com.wardiusz.jat.repository;
 
-import com.wardiusz.jat.model.entity.RefreshToken;
-import com.wardiusz.jat.model.entity.User;
+import com.wardiusz.jat.entity.RefreshToken;
+import com.wardiusz.jat.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

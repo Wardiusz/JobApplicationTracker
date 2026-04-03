@@ -1,9 +1,10 @@
-package com.wardiusz.jat.service;
+package com.wardiusz.jat.service.implementation;
 
-import com.wardiusz.jat.model.entity.RefreshToken;
-import com.wardiusz.jat.model.entity.User;
+import com.wardiusz.jat.entity.RefreshToken;
+import com.wardiusz.jat.entity.User;
 import com.wardiusz.jat.repository.RefreshTokenRepository;
 import com.wardiusz.jat.repository.UserRepository;
+import com.wardiusz.jat.service.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package com.wardiusz.jat.repository;
 
-import com.wardiusz.jat.model.entity.Job;
+import com.wardiusz.jat.entity.Job;
 import com.wardiusz.jat.enums.JobPosition;
 import com.wardiusz.jat.enums.JobStatus;
 import org.springframework.data.jpa.repository.JpaRepository;

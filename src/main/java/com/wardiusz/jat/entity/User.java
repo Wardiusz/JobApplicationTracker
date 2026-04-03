@@ -1,4 +1,4 @@
-package com.wardiusz.jat.model.entity;
+package com.wardiusz.jat.entity;
 
 import com.wardiusz.jat.enums.UserType;
 import jakarta.persistence.*;
@@ -35,6 +35,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserType type;
 
+    @Column(nullable = false)
+    private boolean enabled = false;
+
     @OneToMany(mappedBy = "user",
               cascade = CascadeType.ALL,
               orphanRemoval = true)
@@ -62,6 +65,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return this.enabled;
     }
 }

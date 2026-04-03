@@ -2,8 +2,8 @@ package com.wardiusz.jat.service;
 
 import com.wardiusz.jat.dto.JobDTO;
 import com.wardiusz.jat.dto.JobFilter;
-import com.wardiusz.jat.model.entity.Job;
-import com.wardiusz.jat.model.entity.User;
+import com.wardiusz.jat.entity.Job;
+import com.wardiusz.jat.entity.User;
 
 import java.util.List;
 

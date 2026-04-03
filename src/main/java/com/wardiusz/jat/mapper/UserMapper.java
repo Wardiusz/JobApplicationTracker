@@ -1,9 +1,9 @@
 package com.wardiusz.jat.mapper;
 
 import com.wardiusz.jat.enums.UserType;
-import com.wardiusz.jat.dto.CreateUserRequest;
+import com.wardiusz.jat.dto.request.CreateUserRequest;
 import com.wardiusz.jat.dto.UserDTO;
-import com.wardiusz.jat.model.entity.User;
+import com.wardiusz.jat.entity.User;
 import lombok.experimental.UtilityClass;
 
 import java.util.List;

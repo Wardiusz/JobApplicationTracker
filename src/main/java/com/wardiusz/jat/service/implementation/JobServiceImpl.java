@@ -1,12 +1,13 @@
-package com.wardiusz.jat.service;
+package com.wardiusz.jat.service.implementation;
 
 import com.wardiusz.jat.dto.JobDTO;
 import com.wardiusz.jat.dto.JobFilter;
-import com.wardiusz.jat.model.entity.Job;
-import com.wardiusz.jat.model.entity.User;
+import com.wardiusz.jat.entity.Job;
+import com.wardiusz.jat.entity.User;
 import com.wardiusz.jat.repository.JobRepository;
 import com.wardiusz.jat.repository.UserRepository;
 import com.wardiusz.jat.mapper.JobMapper;
+import com.wardiusz.jat.service.JobService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -40,7 +41,7 @@ public class JobServiceImpl implements JobService {
     public JobDTO addJob(String username, JobDTO dto) {
         User user = getUser(username);
         Job job = JobMapper.toEntity(dto, user);
-        return JobMapper.toDTO(
+        return JobMapper.toDto(
                 jobRepository.save(job));
     }
 
@@ -48,14 +49,14 @@ public class JobServiceImpl implements JobService {
         Job job = getOwnedJob(username, id);
         JobMapper.updateEntity(job, dto);
 
-        return JobMapper.toDTO(jobRepository.save(job));
+        return JobMapper.toDto(jobRepository.save(job));
     }
 
     public JobDTO updateNotes(String username, Long id, String notes) {
         Job job = getOwnedJob(username, id);
         job.setNotes(notes);
 
-        return JobMapper.toDTO(jobRepository.save(job));
+        return JobMapper.toDto(jobRepository.save(job));
     }
 
     public void archiveJob(String username, Long id) {

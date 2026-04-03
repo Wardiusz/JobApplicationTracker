@@ -1,8 +1,8 @@
 package com.wardiusz.jat.mapper;
 
 import com.wardiusz.jat.dto.JobDTO;
-import com.wardiusz.jat.model.entity.Job;
-import com.wardiusz.jat.model.entity.User;
+import com.wardiusz.jat.entity.Job;
+import com.wardiusz.jat.entity.User;
 import lombok.experimental.UtilityClass;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 @UtilityClass
 public class JobMapper {
 
-    public JobDTO toDTO(Job job) {
+    public JobDTO toDto(Job job) {
         if (job == null) return null;
         return JobDTO.builder()
                 .id(job.getId())
@@ -65,7 +65,8 @@ public class JobMapper {
 
     public List<JobDTO> toDTOList(List<Job> jobs) {
         return jobs.stream()
-                .map(JobMapper::toDTO)
+                .map(JobMapper::toDto)
                 .toList();
     }
+
 }

@@ -1,4 +1,4 @@
-package com.wardiusz.jat.dto;
+package com.wardiusz.jat.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -8,4 +8,5 @@ public class RefreshTokenRequest {
 
     @NotBlank
     private String refreshToken;
+
 }

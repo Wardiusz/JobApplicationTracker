@@ -1,4 +1,4 @@
-package com.wardiusz.jat.model.entity;
+package com.wardiusz.jat.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
