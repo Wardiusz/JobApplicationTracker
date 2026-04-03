@@ -17,10 +17,17 @@ import java.time.LocalDate;
 public class JobFilter {
 
     private JobStatus status;
+
     private JobPosition position;
+
     private JobContract contract;
+
     private String companyName;
+
     private LocalDate dateFrom;
+
     private LocalDate dateTo;
+
     private boolean includeArchived;
+
 }
