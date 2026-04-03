@@ -1,14 +1,16 @@
-package com.wardiusz.jat.service;
+package com.wardiusz.jat.service.implementation;
 
 import com.wardiusz.jat.mapper.UserMapper;
-import com.wardiusz.jat.dto.CreateUserRequest;
+import com.wardiusz.jat.dto.request.CreateUserRequest;
 import com.wardiusz.jat.dto.UserDTO;
-import com.wardiusz.jat.model.entity.User;
+import com.wardiusz.jat.entity.User;
 import com.wardiusz.jat.repository.UserRepository;
+import com.wardiusz.jat.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -47,6 +49,10 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        if (!user.isEnabled()) {
+            throw new DisabledException("Account is not verified.");
+        }
 
         Set<GrantedAuthority> authorities = user.getAuthorities().stream()
                 .map((role) -> new SimpleGrantedAuthority(role.toString()))

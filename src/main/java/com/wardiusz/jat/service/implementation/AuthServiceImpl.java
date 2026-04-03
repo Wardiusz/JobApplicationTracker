@@ -1,11 +1,12 @@
-package com.wardiusz.jat.service;
+package com.wardiusz.jat.service.implementation;
 
 import com.wardiusz.jat.security.JwtTokenProvider;
-import com.wardiusz.jat.dto.LoginRequest;
-import com.wardiusz.jat.dto.RegisterRequest;
+import com.wardiusz.jat.dto.request.LoginRequest;
+import com.wardiusz.jat.dto.request.RegisterRequest;
 import com.wardiusz.jat.enums.UserType;
-import com.wardiusz.jat.model.entity.User;
+import com.wardiusz.jat.entity.User;
 import com.wardiusz.jat.repository.UserRepository;
+import com.wardiusz.jat.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -70,5 +71,15 @@ public class AuthServiceImpl implements AuthService {
         ));
 
         return jwtTokenProvider.generateAccessToken(authentication.getName());
+    }
+
+    @Override
+    public void activateUser(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setEnabled(true);
+
+        userRepository.save(user);
     }
 }

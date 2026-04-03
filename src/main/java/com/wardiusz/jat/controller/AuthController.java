@@ -1,11 +1,14 @@
 package com.wardiusz.jat.controller;
 
-import com.wardiusz.jat.model.entity.RefreshToken;
+import com.wardiusz.jat.dto.request.OtpRequest;
+import com.wardiusz.jat.entity.OtpToken;
+import com.wardiusz.jat.entity.RefreshToken;
 import com.wardiusz.jat.security.CookieUtil;
 import com.wardiusz.jat.security.JwtTokenProvider;
-import com.wardiusz.jat.dto.LoginRequest;
-import com.wardiusz.jat.dto.RegisterRequest;
+import com.wardiusz.jat.dto.request.LoginRequest;
+import com.wardiusz.jat.dto.request.RegisterRequest;
 import com.wardiusz.jat.service.AuthService;
+import com.wardiusz.jat.service.OtpTokenService;
 import com.wardiusz.jat.service.RefreshTokenService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,10 +18,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 
@@ -28,13 +28,32 @@ import java.util.Arrays;
 public class AuthController {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private AuthService authService;
+    private final AuthService authService;
+    private final OtpTokenService otpTokenService;
     private final RefreshTokenService refreshTokenService;
     private final CookieUtil cookieUtil;
 
+    @PostMapping("/resend-otp")
+    public ResponseEntity<?> resendOtp(@RequestBody OtpRequest request) {
+        return ResponseEntity.ok(otpTokenService.generateAndSendOTP(request.getEmail()));
+    }
+
+    @PostMapping("/verify-otp")
+    public ResponseEntity<?> verifyOtp(@RequestBody OtpRequest request) {
+        boolean otpToken = otpTokenService.validateOtp(request.getEmail(), request.getOtp());
+
+        if (!otpToken) {
+            return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).build();
+        }
+
+        authService.activateUser(request.getEmail());
+
+        return ResponseEntity.ok("Account verified successfully");
+    }
+
     // POST /api/v1/auth/login
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response){
+    public ResponseEntity<Void> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
         String accessToken = authService.login(loginRequest);
         String refreshToken = refreshTokenService.createRefreshToken(loginRequest.getUsername()).getToken();
 
@@ -51,6 +70,8 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody RegisterRequest registerRequest, HttpServletResponse response) {
         String accessToken = authService.register(registerRequest);
+
+        otpTokenService.generateAndSendOTP(accessToken);
 
         ResponseCookie accessCookie = cookieUtil.createAccessTokenCookie(accessToken);
 
