@@ -40,21 +40,23 @@ public class JobController {
 
     // PATCH /api/jobs/{id}/notes
     @PatchMapping("/{id}/notes")
-    public JobDTO updateNotes(Authentication auth, @PathVariable Long id, @RequestBody String notes) {
-        return jobService.updateNotes(auth.getName(), id, notes);
+    public ResponseEntity<JobDTO> updateNotes(Authentication auth, @PathVariable Long id, @RequestBody String notes) {
+        return ResponseEntity.ok(jobService.updateNotes(auth.getName(), id, notes));
     }
 
     // PATCH /api/jobs/{id}/archive
     @PatchMapping("/{id}/archive")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void archiveJob(Authentication auth, @PathVariable Long id) {
+    public ResponseEntity<Void> archiveJob(Authentication auth, @PathVariable Long id) {
         jobService.archiveJob(auth.getName(), id);
+        return ResponseEntity.noContent().build();
     }
 
     // PATCH /api/jobs/{id}/unarchive
     @PatchMapping("/{id}/unarchive")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void unArchiveJob(Authentication auth, @PathVariable Long id) {
+    public ResponseEntity<Void> unArchiveJob(Authentication auth, @PathVariable Long id) {
         jobService.unArchiveJob(auth.getName(), id);
+        return ResponseEntity.noContent().build();
     }
 }
