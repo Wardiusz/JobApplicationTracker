@@ -39,16 +39,20 @@ public class AuthController {
     }
 
     @PostMapping("/verify-otp")
-    public ResponseEntity<?> verifyOtp(@RequestBody OtpRequest request) {
+    public ResponseEntity<?> verifyOtp(@RequestBody OtpRequest request, HttpServletResponse response) {
         boolean otpToken = otpTokenService.validateOtp(request.getEmail(), request.getOtp());
 
         if (!otpToken) {
             return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).build();
         }
 
+        String accessToken = jwtTokenProvider.generateAccessToken(request.getEmail());
+        ResponseCookie cookie = cookieUtil.createAccessTokenCookie(accessToken);
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
         authService.activateUser(request.getEmail());
 
-        return ResponseEntity.ok("Account verified successfully");
+        return ResponseEntity.ok("Account verified successfully. You may login now.");
     }
 
     // POST /api/v1/auth/login
@@ -68,14 +72,10 @@ public class AuthController {
 
     // POST /api/v1/auth/register
     @PostMapping("/register")
-    public ResponseEntity<Void> register(@RequestBody RegisterRequest registerRequest, HttpServletResponse response) {
-        String accessToken = authService.register(registerRequest);
+    public ResponseEntity<Void> register(@RequestBody RegisterRequest registerRequest) {
+        authService.register(registerRequest);
 
-        otpTokenService.generateAndSendOTP(accessToken);
-
-        ResponseCookie accessCookie = cookieUtil.createAccessTokenCookie(accessToken);
-
-        response.addHeader(HttpHeaders.SET_COOKIE, accessCookie.toString());
+        otpTokenService.generateAndSendOTP(registerRequest.getEmail());
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
