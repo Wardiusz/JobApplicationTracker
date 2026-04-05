@@ -42,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String register(RegisterRequest registerRequest) {
+    public void register(RegisterRequest registerRequest) {
         if (userRepository.findByUsername(registerRequest.getUsername()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Username is taken.");
         }
@@ -64,13 +64,6 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         userRepository.save(user);
-
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                registerRequest.getUsername(),
-                registerRequest.getPassword()
-        ));
-
-        return jwtTokenProvider.generateAccessToken(authentication.getName());
     }
 
     @Override
