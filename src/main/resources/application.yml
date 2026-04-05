@@ -24,9 +24,6 @@ spring:
         show-sql: true
     config:
         import: env.properties
-app:
-    cookie:
-        secure: false
     mail:
         host: smtp.gmail.com
         port: 587
@@ -36,5 +33,6 @@ app:
             mail.smtp:
                 auth: true
                 starttls.enable: true
-        otp:
-            expiration: 300
+app:
+    cookie:
+        secure: false
