@@ -17,12 +17,12 @@ public class RegisterRequest {
     @NotBlank
     String username;
 
+    @NotBlank
+    String password;
+
     @Email
     @NotBlank
     String email;
-
-    @NotBlank
-    String password;
 
     UserType userType;
 
