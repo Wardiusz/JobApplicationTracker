@@ -1,7 +1,6 @@
 package com.wardiusz.jat.controller;
 
 import com.wardiusz.jat.dto.request.OtpRequest;
-import com.wardiusz.jat.entity.OtpToken;
 import com.wardiusz.jat.entity.RefreshToken;
 import com.wardiusz.jat.security.CookieUtil;
 import com.wardiusz.jat.security.JwtTokenProvider;
@@ -33,26 +32,24 @@ public class AuthController {
     private final RefreshTokenService refreshTokenService;
     private final CookieUtil cookieUtil;
 
-    @PostMapping("/resend-otp")
-    public ResponseEntity<?> resendOtp(@RequestBody OtpRequest request) {
-        return ResponseEntity.ok(otpTokenService.generateAndSendOTP(request.getEmail()));
+    // POST /api/v1/auth/otp-resend
+    @PostMapping("/otp-resend")
+    public ResponseEntity<?> resendOtp(@RequestBody OtpRequest otpRequest) {
+        return ResponseEntity.ok(otpTokenService.generateAndSendOTP(otpRequest.getEmail()));
     }
 
-    @PostMapping("/verify-otp")
-    public ResponseEntity<?> verifyOtp(@RequestBody OtpRequest request, HttpServletResponse response) {
-        boolean otpToken = otpTokenService.validateOtp(request.getEmail(), request.getOtp());
+    // POST /api/v1/auth/otp-verify
+    @PostMapping("/otp-verify")
+    public ResponseEntity<?> verifyOtp(@RequestBody OtpRequest otpRequest, HttpServletResponse response) {
+        boolean otpToken = otpTokenService.validateOtp(otpRequest.getEmail(), otpRequest.getOtp());
 
         if (!otpToken) {
             return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).build();
         }
 
-        String accessToken = jwtTokenProvider.generateAccessToken(request.getEmail());
-        ResponseCookie cookie = cookieUtil.createAccessTokenCookie(accessToken);
-        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        authService.activateUser(otpRequest.getEmail());
 
-        authService.activateUser(request.getEmail());
-
-        return ResponseEntity.ok("Account verified successfully. You may login now.");
+        return ResponseEntity.ok().build();
     }
 
     // POST /api/v1/auth/login
