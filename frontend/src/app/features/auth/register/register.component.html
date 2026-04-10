@@ -1,0 +1,102 @@
+<div class="auth-shell">
+  <div class="auth-left">
+    <div class="brand">
+        <div class="brand-icon"></div>
+        <span class="brand-name">Job<strong>Tracker</strong></span>
+    </div>
+    <div class="hero-text">
+      <h1>Zacznij<br>śledzić oferty.</h1>
+      <p>Jeden widok na wszystkie aplikacje — statusy, terminy, notatki rekruterskie.</p>
+    </div>
+    <div class="stats-preview">
+      <div class="sp-item"><span class="sp-num">∞</span><span class="sp-label">przechowywania ofert pracy</span></div>
+      <div class="sp-divider"></div>
+      <div class="sp-item"><span class="sp-num">JWT</span><span class="sp-label">bezpieczny dostęp</span></div>
+      <div class="sp-divider"></div>
+      <div class="sp-item"><span class="sp-num">Free</span><span class="sp-label">bez opłat</span></div>
+    </div>
+  </div>
+
+  <div class="auth-right">
+    <div class="auth-card">
+      <div class="card-header">
+        <h2>Utwórz konto</h2>
+        <p>Dołącz i zacznij śledzić aplikacje</p>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <div class="field-group">
+          <label class="field-label">Nazwa użytkownika</label>
+          <div class="field-wrap" [class.has-error]="f['username'].invalid && f['username'].touched">
+            <span class="field-icon">◉</span>
+            <input type="text" class="field-input" placeholder="username"
+              formControlName="username" autocomplete="username" />
+          </div>
+          @if (f['username'].errors?.['required'] && f['username'].touched) {
+            <span class="field-error">Nazwa użytkownika jest wymagana</span>
+          } @else if (f['username'].errors?.['minlength'] && f['username'].touched) {
+            <span class="field-error">Nazwa użytkownika musi skladać się z min. 3 znaków</span>
+          } @else if (f['username'].errors?.['maxlength'] && f['username'].touched) {
+            <span class="field-error">Nazwa użytkownika nie moze przekraczać max. 20 znaków</span>
+          }
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Email</label>
+          <div class="field-wrap" [class.has-error]="f['email'].invalid && f['email'].touched">
+            <span class="field-icon">&#64;</span>
+            <input type="email" class="field-input" placeholder="mail@example.com"
+              formControlName="email" autocomplete="email" />
+          </div>
+          @if (f['email'].invalid && f['email'].touched) {
+            <span class="field-error">Podaj prawidłowy adres email</span>
+          }
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Hasło</label>
+          <div class="field-wrap" [class.has-error]="f['password'].invalid && f['password'].touched">
+            <span class="field-icon">⊛</span>
+            <input [type]="showPassword() ? 'text' : 'password'" class="field-input"
+              placeholder="••••••••" formControlName="password" autocomplete="new-password" />
+            <button type="button" class="toggle-pass" (click)="showPassword.set(!showPassword())">
+              {{ showPassword() ? '👁' : '◠' }}
+            </button>
+          </div>
+          @if (f['password'].invalid && f['password'].touched) {
+            <span class="field-error">Hasło musi mieć co najmniej 8 znaków</span>
+          }
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Potwierdź hasło</label>
+          <div class="field-wrap"
+            [class.has-error]="(f['confirmPassword'].touched && form.errors?.['mismatch'])">
+            <span class="field-icon">⊛</span>
+            <input type="password" class="field-input"
+              placeholder="••••••••" formControlName="confirmPassword" autocomplete="new-password" />
+          </div>
+          @if (f['confirmPassword'].touched && form.errors?.['mismatch']) {
+            <span class="field-error">Hasła nie są zgodne</span>
+          }
+        </div>
+
+        @if (error()) {
+          <div class="alert-error">{{ error() }}</div>
+        }
+
+        <button type="submit" class="btn-submit" [disabled]="loading()">
+          @if (loading()) {
+            <span class="spinner"></span> Tworzenie konta...
+          } @else {
+            Utwórz konto →
+          }
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Masz już konto? <a routerLink="/login">Zaloguj się</a>
+      </div>
+    </div>
+  </div>
+</div>

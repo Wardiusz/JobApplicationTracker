@@ -1,0 +1,113 @@
+<div class="shell">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-icon"></div>
+      <span class="logo-name">Job<strong>Tracker</strong></span>
+    </div>
+
+    <nav class="nav">
+      <div class="nav-label">Menu</div>
+
+      <div class="nav-item" [class.active]="!showArchived()" (click)="showArchived.set(false)">
+        <span class="nav-ico">▦</span>
+        Dashboard
+        <span class="nav-badge">{{ totalActive() }}</span>
+      </div>
+
+      <div class="nav-label">Widok</div>
+
+      <div class="nav-item" [class.active]="showArchived()" (click)="toggleArchive()">
+        <span class="nav-ico">◻</span>
+        Archiwum
+        <span class="nav-badge">{{ totalArchived() }}</span>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-row">
+        <div class="avatar">{{ (username() ?? 'U')[0].toUpperCase() }}</div>
+        <div>
+          <div class="user-name">{{ username() }}</div>
+          <div class="user-role">FREE plan</div>
+        </div>
+      </div>
+      <button class="btn-logout" (click)="logout()">Wyloguj się</button>
+    </div>
+  </aside>
+
+  <!-- Main area -->
+  <div class="main">
+    <header class="topbar">
+      <div class="page-title">
+        Dashboard
+        <span class="page-sub">{{ viewLabel }}</span>
+      </div>
+      <div class="topbar-right">
+        <button class="btn-add" (click)="openAdd()">+ Dodaj ofertę</button>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- Stats row -->
+      <div class="stats-grid">
+        <app-stat-card
+          label="Wszystkie"
+          [value]="totalActive()"
+          sub="aplikacje łącznie"
+          type="all"
+          (clicked)="onStatClick($event)"
+        />
+        <app-stat-card
+          label="Oczekujące"
+          [value]="totalPending()"
+          sub="w toku"
+          type="PENDING"
+          (clicked)="onStatClick($event)"
+        />
+        <app-stat-card
+          label="Odrzucone"
+          [value]="totalRejected()"
+          sub="bez powodzenia"
+          type="REJECTED"
+          (clicked)="onStatClick($event)"
+        />
+        <app-stat-card
+          label="Ghostowane"
+          [value]="totalGhosted()"
+          sub="bez odzewu"
+          type="GHOSTED"
+          (clicked)="onStatClick($event)"
+        />
+      </div>
+
+      <!-- Filters -->
+      <app-filter-bar (filterChange)="onFilterChange($event)" />
+
+      <!-- Table -->
+      <app-job-table
+        [jobs]="filteredJobs()"
+        (editJob)="openEdit($event)"
+        (archiveJob)="onArchive($event)"
+        (restoreJob)="onRestore($event)"
+      />
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<app-job-modal
+  [isOpen]="modalOpen()"
+  [editJob]="editingJob()"
+  (save)="onSave($event)"
+  (closed)="closeModal()"
+/>
+
+<!-- Toast notification -->
+<div class="toast" [class.show]="toastShow()">
+  <span class="toast-dot"></span>
+  {{ toastMsg() }}
+</div>

@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg:      #0d0f14;
+  --bg2:     #13161d;
+  --bg3:     #1a1e28;
+  --bg4:     #222636;
+  --border:  rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.13);
+  --text:    #e8eaf0;
+  --muted: #7c8999;
+  --accent:  #f5a623;
+  --accent2: #e8911a;
+  --yellow: #e8e51a;
+  --blue:    #4a9eff;
+  --green:   #3dd68c;
+  --red:     #ff5f6b;
+  --purple:  #9d7dff;
+  --mono:    'DM Mono', monospace;
+  --sans:    'Manrope', sans-serif;
+  --r:       10px;
+  --r-sm:    6px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar        { width: 4px; height: 4px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: var(--bg4); border-radius: 2px; }
+
+a { color: inherit; }
+button { font-family: var(--sans); }
+input, select, textarea { font-family: var(--sans); }

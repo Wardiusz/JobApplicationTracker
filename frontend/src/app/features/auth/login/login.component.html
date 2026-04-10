@@ -1,0 +1,79 @@
+<div class="auth-shell">
+  <div class="auth-left">
+    <div class="brand">
+      <div class="brand-icon"></div>
+      <span class="brand-name">Job<strong>Tracker</strong></span>
+    </div>
+    <div class="hero-text">
+      <h1>Kontroluj<br>swoją karierę.</h1>
+      <p>Śledź swoje aplikacje, statusy i terminy — wszystko w jednym miejscu.</p>
+    </div>
+    <div class="stats-preview">
+      <div class="sp-item"><span class="sp-num">Jeden panel</span><span class="sp-label">wszystko w jednym miejscu</span></div>
+      <div class="sp-divider"></div>
+      <div class="sp-item"><span class="sp-num">Kontrola</span><span class="sp-label">pełna organizacja</span></div>
+      <div class="sp-divider"></div>
+      <div class="sp-item"><span class="sp-num">Automatyzacja</span><span class="sp-label">nie jak Microsoft Excel</span></div>
+      <div class="sp-divider"></div>
+      <div class="sp-item"><span class="sp-num">24/7</span><span class="sp-label">dostęp do ofert</span></div>
+      <div class="sp-divider"></div>
+      <div class="sp-item"><span class="sp-num">100%</span><span class="sp-label">bezpieczeństwo danych</span></div>
+    </div>
+  </div>
+
+  <div class="auth-right">
+    <div class="auth-card">
+      <div class="card-header">
+        <h2>Zaloguj się</h2>
+      </div>
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <div class="field-group">
+          <label class="field-label">Nazwa użytkownika</label>
+          <div class="field-wrap">
+            <span class="field-icon">◉</span>
+            <input
+              type="text"
+              class="field-input"
+              placeholder="username"
+              formControlName="username"
+              autocomplete="username"
+            />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Hasło</label>
+          <div class="field-wrap" [class.has-error]="f['password'].invalid && f['password'].touched">
+            <span class="field-icon">⊛</span>
+            <input
+              [type]="showPassword() ? 'text' : 'password'"
+              class="field-input"
+              [placeholder]="showPassword() ? 'password' : '••••••••'"
+              formControlName="password"
+              autocomplete="current-password"
+            />
+            <button type="button" class="toggle-pass" (click)="showPassword.set(!showPassword())">
+              {{ showPassword() ? '👁' : '◠' }}
+            </button>
+          </div>
+        </div>
+
+        @if (error()) {
+          <div class="alert-error">{{ error() }}</div>
+        }
+
+        <button type="submit" class="btn-submit" [disabled]="loading()">
+          @if (loading()) {
+            <span class="spinner"></span> Logowanie...
+          } @else {
+            Zaloguj się →
+          }
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Nie masz konta? <a routerLink="/register">Zarejestruj się</a>
+      </div>
+    </div>
+  </div>
+</div>

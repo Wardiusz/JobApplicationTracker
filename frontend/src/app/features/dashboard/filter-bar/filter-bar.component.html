@@ -1,0 +1,39 @@
+<div class="filter-bar">
+  <div class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Szukaj firmy..."
+      [value]="search()"
+      (input)="onSearchInput($event)"
+    />
+  </div>
+
+  <select class="filter-select" [(ngModel)]="position" (ngModelChange)="onSelectChange()">
+    <option value="">Wszystkie poziomy</option>
+    <option value="INTERN">Intern</option>
+    <option value="JUNIOR">Junior</option>
+    <option value="MID">Mid</option>
+    <option value="SENIOR">Senior</option>
+  </select>
+
+  <select class="filter-select" [(ngModel)]="contract" (ngModelChange)="onSelectChange()">
+    <option value="">Typ umowy</option>
+    <option value="B2B">B2B</option>
+    <option value="UOP">UoP</option>
+    <option value="UOZ">UoZ</option>
+    <option value="UOD">UoD</option>
+    <option value="INTERN">Staż</option>
+  </select>
+
+  <div class="chips">
+    @for (chip of STATUS_CHIPS; track chip.value) {
+      <button
+        class="chip"
+        [class.active]="status() === chip.value"
+        (click)="setStatus(chip.value)"
+      >{{ chip.label }}</button>
+    }
+  </div>
+</div>

@@ -1,0 +1,5 @@
+<div class="stat-card" [class]="type()" (click)="clicked.emit(type())">
+  <div class="stat-label">{{ label() }}</div>
+  <div class="stat-val">{{ value() }}</div>
+  @if (sub()) { <div class="stat-sub">{{ sub() }}</div> }
+</div>

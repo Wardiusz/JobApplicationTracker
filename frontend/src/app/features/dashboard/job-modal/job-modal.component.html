@@ -1,0 +1,124 @@
+@if (isOpen()) {
+  <div class="modal-overlay" (click)="onOverlayClick($event)">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>{{ isEdit() ? 'Edytuj ofertę' : 'Nowa oferta pracy' }}</h3>
+        <button class="btn-close" (click)="close()">×</button>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Firma *</label>
+              <input class="form-input" type="text" formControlName="company"
+                placeholder="np. Google" [class.invalid]="f['company'].invalid && f['company'].touched" />
+              @if (f['company'].invalid && f['company'].touched) {
+                <span class="form-error">*Wymagane</span>
+              }
+            </div>
+            <div class="form-group">
+              <label class="form-label">URL oferty</label>
+              <input class="form-input" type="text" formControlName="url"
+                placeholder="https://..." [class.invalid]="f['url'].invalid && f['url'].touched" />
+              @if (f['url'].invalid && f['url'].touched) {
+                <span class="form-error">*Wymagane</span>
+              }
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Lokalizacja *</label>
+              <input class="form-input" type="text" formControlName="location"
+                     placeholder="np. 00-001 Warszawa, ul. Koszykowa 10A" [class.invalid]="f['location'].invalid && f['location'].touched" />
+              @if (f['location'].invalid && f['location'].touched) {
+                <span class="form-error">*Wymagane</span>
+              }
+            </div>
+            <div class="form-group">
+              <label class="form-label">Typ umowy *</label>
+              <select class="form-input" formControlName="contract">
+                <option [ngValue]="null" disabled hidden>Wybierz typ...</option>
+                <option value="UOP">Umowa o Prace</option>
+                <option value="B2B">B2B</option>
+                <option value="UOZ">Umowa o Zlecenie</option>
+                <option value="UOD">Umowa o Dzielo</option>
+                <option value="INTERN">Staż</option>
+              </select>
+              @if (f['contract'].invalid && f['contract'].touched) {
+                <span class="form-error">*Wymagane</span>
+              }
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Poziom *</label>
+              <select class="form-input" formControlName="position">
+                <option [ngValue]="null" disabled hidden>Wybierz poziom...</option>
+                <option value="INTERN">Intern</option>
+                <option value="JUNIOR">Junior</option>
+                <option value="MID">Mid</option>
+                <option value="SENIOR">Senior</option>
+              </select>
+              @if (f['position'].invalid && f['position'].touched) {
+                <span class="form-error">*Wymagane</span>
+              }
+            </div>
+            <div class="form-group">
+              <label class="form-label">Status *</label>
+              <select class="form-input" formControlName="status">
+                <option [ngValue]="null" disabled hidden>Wybierz status...</option>
+                <option value="PENDING">Oczekujące</option>
+                <option value="SCREENING">Wstępna rozmowa</option>
+                <option value="INTERVIEW">Rozmowa rekrutacyjna</option>
+                <option value="OFFER">Oferta</option>
+                <option value="REJECTED">Odrzucone</option>
+                <option value="GHOSTED">Brak odpowiedzi</option>
+              </select>
+              @if (f['status'].invalid && f['status'].touched) {
+                <span class="form-error">*Wymagane</span>
+              }
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Pensja od (brutto/PLN)</label>
+              <input class="form-input" type="number" formControlName="salaryLowest" placeholder="np. 8 000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Pensja do (brutto/PLN)</label>
+              <input class="form-input" type="number" formControlName="salaryHighest" placeholder="np. 14 000" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Data aplikacji *</label>
+              <input class="form-input" type="date" formControlName="dateApplied" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Data zamknięcia *</label>
+              <input class="form-input" type="date" formControlName="dateClosing" />
+            </div>
+          </div>
+
+          <div class="form-group full">
+            <label class="form-label">Notatki</label>
+            <textarea class="form-input" rows="3" formControlName="notes"
+              placeholder="np. Firma X wymaga Y,Z.."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-cancel" (click)="close()">Anuluj</button>
+          <button type="submit" class="btn-save">
+            {{ isEdit() ? 'Zapisz zmiany' : 'Dodaj ofertę' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}

@@ -1,0 +1,94 @@
+<div class="auth-shell">
+  <div class="auth-left">
+    <div class="brand">
+      <div class="brand-icon"></div>
+      <span class="brand-name">Job<strong>Tracker</strong></span>
+    </div>
+    <div class="hero-text">
+      <h1>Weryfikacja<br>konta.</h1>
+      <p>Wpisz kod który wysłaliśmy na Twój adres email, aby aktywować konto.</p>
+    </div>
+    <div class="stats-preview">
+      <div class="sp-item"><span class="sp-num">6</span><span class="sp-label">cyfr w kodzie</span></div>
+      <div class="sp-divider"></div>
+      <div class="sp-item"><span class="sp-num">5 min</span><span class="sp-label">ważność kodu</span></div>
+      <div class="sp-divider"></div>
+      <div class="sp-item"><span class="sp-num">3x</span><span class="sp-label">max prób</span></div>
+    </div>
+  </div>
+
+  <div class="auth-right">
+    <div class="auth-card">
+      @if (success()) {
+        <div class="success-state">
+          <div class="success-icon">✓</div>
+          <h2>Konto zweryfikowane!</h2>
+          <p>Twoje konto zostało pomyślnie aktywowane.<br>Możesz się teraz zalogować.</p>
+          <div class="redirect-notice">
+            Przekierowanie do logowania za <strong>{{ countdown() }}s</strong>...
+          </div>
+          <a routerLink="/login" class="btn-submit" style="text-decoration:none; text-align:center; display:block;">
+            Zaloguj się teraz →
+          </a>
+        </div>
+      } @else {
+      <div class="card-header">
+        <h2>Potwierdź email</h2>
+        <p>Wysłaliśmy kod na <strong>{{ email }}</strong></p>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <div class="field-group">
+          <div class="otp-meta">
+            <label class="field-label">Kod weryfikacyjny</label>
+            <span class="otp-timer" [class.urgent]="isExpiring()">
+              Wygasa za {{ timeLeft() }}
+            </span>
+          </div>
+          <div class="field-wrap" [class.has-error]="f['code'].invalid && f['code'].touched">
+            <span class="field-icon">◉</span>
+            <input
+              type="text"
+              class="field-input"
+              inputmode="numeric"
+              maxlength="6"
+              placeholder="000000"
+              formControlName="code"
+              autocomplete="one-time-otp"
+            />
+          </div>
+          @if (f['code'].errors?.['required'] && f['code'].touched) {
+            <span class="field-error">Kod jest wymagany</span>
+          } @else if (f['code'].errors?.['pattern'] && f['code'].touched) {
+            <span class="field-error">Kod musi składać się z 6 cyfr</span>
+          }
+        </div>
+
+        @if (error()) {
+          <div class="alert-error">{{ error() }}</div>
+        }
+
+        <button type="submit" class="btn-submit" [disabled]="loading()">
+          @if (loading()) {
+            <span class="spinner"></span> Weryfikacja...
+          } @else {
+            Weryfikuj konto →
+          }
+        </button>
+      </form>
+
+      <button class="btn-resend" (click)="resend()" [disabled]="resendCooldown() > 0">
+        @if (resendCooldown() > 0) {
+          Wyślij ponownie ({{ resendCooldown() }}s)
+        } @else {
+          Wyślij kod ponownie
+        }
+      </button>
+
+      <div class="auth-footer">
+        Błędny email? <a routerLink="/register">Wróć do rejestracji</a>
+      </div>
+      }
+    </div>
+  </div>
+</div>

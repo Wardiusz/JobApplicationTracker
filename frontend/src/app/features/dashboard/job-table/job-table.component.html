@@ -1,0 +1,103 @@
+<div class="table-wrap">
+  <div class="table-header">
+    <span class="table-count">{{ sorted().length }} ofert{{ sorted().length === 1 ? 'a' : '' }}</span>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th (click)="sort('company')"  [class.active]="sortKey()==='company'">Firma{{ sortIcon('company') }}</th>
+        <th (click)="sort('position')" [class.active]="sortKey()==='position'">Poziom{{ sortIcon('position') }}</th>
+        <th (click)="sort('contract')" [class.active]="sortKey()==='contract'">Umowa{{ sortIcon('contract') }}</th>
+        <th (click)="sort('salary')"   [class.active]="sortKey()==='salary'">Wynagrodzenie{{ sortIcon('salary') }}</th>
+        <th (click)="sort('status')"   [class.active]="sortKey()==='status'">Status{{ sortIcon('status') }}</th>
+        <th (click)="sort('date_applied')" [class.active]="sortKey()==='date_applied'">Data aplikowania{{ sortIcon('date_applied') }}</th>
+        <th (click)="sort('date_closing')" [class.active]="sortKey()==='date_closing'">Data zamknięcia{{ sortIcon('date_closing') }}</th>
+        <th>Notatki</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @if (sorted().length === 0) {
+        <tr>
+          <td colspan="7">
+            <div class="empty-state">
+              <div class="empty-icon">📭</div>
+              <p>Brak ofert spełniających kryteria</p>
+            </div>
+          </td>
+        </tr>
+      }
+      @for (job of sorted(); track job.id) {
+        <tr [class.archived]="job.archived">
+          <td>
+            <div class="company-cell">
+              <div class="company-logo">{{ abbr(job.company) }}</div>
+              <div>
+                <div class="company-name">{{ job.company }}</div>
+                <div class="company-url"><a [href]="safeUrl(job.url)" target="_blank" rel="noopener noreferrer">{{ displayUrl(job.url) }}</a></div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="pos-badge" [class]="'pos-' + job.position">
+              {{ posLabel(job.position) }}
+            </span>
+          </td>
+          <td>
+            <span class="contract-badge">{{ contractLabel(job.contract) }}</span>
+          </td>
+          <td>
+            <!-- Brutto -->
+            <span class="salary" [class.empty]="!job.salaryHighest">
+              {{ fmtSalary(job.salaryLowest, job.salaryHighest) }}
+              @if (job.salaryHighest) {
+                <span class="currency">Brutto/PLN</span>
+              }
+            </span>
+
+            <!-- Netto -->
+            @if (job.salaryHighest && hasNet(job.contract)) {
+              <span class="salary salary-net">
+                {{ fmtNet(job.salaryLowest, job.salaryHighest, job.contract) }}
+                <span class="currency">Netto/PLN</span>
+                <span class="tooltip-wrap">
+                  <span class="tooltip-icon">ⓘ</span>
+                  <span class="tooltip-text">
+                    Kwota przybliżona
+                  </span>
+                </span>
+              </span>
+            }
+          </td>
+          <td>
+            <span class="status-badge" [class]="'status-' + job.status.toLowerCase()">
+              {{ statusLabel(job.status) }}
+            </span>
+          </td>
+          <td>
+            <span class="date-cell">{{ fmtDate(job.dateApplied) }}</span>
+          </td>
+          <td>
+            <span class="date-cell">{{ fmtDate(job.dateClosing) }}</span>
+          </td>
+          <td>
+            <div class="notes-cell">
+              <span class="notes">{{ job.notes }}</span>
+            </div>
+          </td>
+          <td>
+            <div class="row-actions">
+              <button class="action-btn" (click)="editJob.emit(job)">Edytuj</button>
+              @if (!job.archived) {
+                <button class="action-btn warn" (click)="archiveJob.emit(job.id!)">Archiwizuj</button>
+              } @else {
+                <button class="action-btn" (click)="restoreJob.emit(job.id!)">Przywróć</button>
+              }
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

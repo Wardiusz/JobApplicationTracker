@@ -1,0 +1,289 @@
+// ── Layout ──
+.shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+// ── Sidebar ──
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.logo {
+  padding: 24px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  background: var(--accent);
+  background-image: url("C:/Users/lukas/JobApplicationTracker/frontend/public/JobTracker.png");
+  background-size: 28px;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.logo-name {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -.3px;
+  color: var(--text);
+
+  strong { color: var(--accent); }
+}
+
+// ── Nav ──
+.nav {
+  padding: 12px 10px;
+  flex: 1;
+}
+
+.nav-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 8px 10px 4px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: var(--r-sm);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background .15s, color .15s;
+  margin-bottom: 2px;
+
+  &:hover {
+    background: var(--bg3);
+    color: var(--text);
+  }
+
+  &.active {
+    background: rgba(245, 166, 35, .12);
+    color: var(--accent);
+
+    .nav-badge {
+      background: rgba(245, 166, 35, .2);
+      color: var(--accent);
+    }
+  }
+}
+
+.nav-ico {
+  font-size: 15px;
+  width: 18px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.nav-badge {
+  margin-left: auto;
+  background: var(--bg4);
+  color: var(--muted);
+  font-size: 10px;
+  font-family: var(--mono);
+  padding: 1px 7px;
+  border-radius: 10px;
+  transition: background .15s, color .15s;
+}
+
+// ── Sidebar footer ──
+.sidebar-footer {
+  padding: 16px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.user-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--purple), var(--blue));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.user-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.user-role {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.btn-logout {
+  width: 100%;
+  padding: 7px;
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  border-radius: var(--r-sm);
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color .15s, border-color .15s;
+
+  &:hover {
+    color: var(--red);
+    border-color: var(--red);
+  }
+}
+
+// ── Main ──
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+// ── Topbar ──
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 28px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.page-title {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -.4px;
+  color: var(--text);
+}
+
+.page-sub {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--muted);
+  margin-left: 10px;
+  letter-spacing: 0;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-add {
+  padding: 8px 16px;
+  background: var(--accent);
+  color: #0d0f14;
+  border: none;
+  border-radius: var(--r-sm);
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .15s, transform .1s;
+
+  &:hover  { background: var(--accent2); }
+  &:active { transform: scale(.98); }
+}
+
+// ── Content ──
+.content {
+  padding: 24px 28px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+// ── Stats grid ──
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+// ── Toast ──
+.toast {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: var(--r);
+  padding: 13px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transform: translateY(10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform .25s, opacity .25s;
+  z-index: 200;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, .45);
+
+  &.show {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.toast-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  flex-shrink: 0;
+}
