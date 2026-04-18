@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
-import {emailError} from '@angular/forms/signals';
 
 function passwordMatch(control: AbstractControl): ValidationErrors | null {
   const pw = control.get('password')?.value;
