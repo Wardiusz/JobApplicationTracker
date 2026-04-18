@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import {emailError} from '@angular/forms/signals';
 
 function passwordMatch(control: AbstractControl): ValidationErrors | null {
   const pw = control.get('password')?.value;
@@ -47,10 +48,18 @@ export class RegisterComponent {
         state: { email: this.form.value.email }
       }),
       error: (err) => {
-        if (err.status === 409) {
-          this.error.set('Nazwa użytkownika lub email jest już zajęty.');
-        } else {
-          this.error.set('Błąd połączenia z serwerem.');
+        switch (err.status) {
+          case 409: {
+            this.error.set('Nazwa użytkownika i/lub email jest zajęty.');
+            break;
+          }
+          case 411: {
+            this.error.set('Hasło jest za krótkie.')
+            break;
+          }
+          default: {
+            this.error.set('Błąd połączenia z serwerem.');
+          }
         }
         this.loading.set(false);
       }
