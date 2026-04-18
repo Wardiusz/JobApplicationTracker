@@ -46,16 +46,13 @@
             </span>
           </div>
           <div class="field-wrap" [class.has-error]="f['code'].invalid && f['code'].touched">
-            <span class="field-icon">◉</span>
-            <input
-              type="text"
-              class="field-input"
-              inputmode="numeric"
-              maxlength="6"
-              placeholder="000000"
-              formControlName="code"
-              autocomplete="one-time-otp"
-            />
+            <ng-otp-input formControlName="code"
+            [config]="{
+                length: 6,
+                allowNumbersOnly: true,
+                inputClass: 'otp-input',
+                containerClass: 'otp-container'
+            }"></ng-otp-input>
           </div>
           @if (f['code'].errors?.['required'] && f['code'].touched) {
             <span class="field-error">Kod jest wymagany</span>

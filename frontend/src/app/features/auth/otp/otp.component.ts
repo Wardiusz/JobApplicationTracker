@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { NgOtpInputComponent } from 'ng-otp-input';
 
 @Component({
   selector: 'app-otp',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, NgOtpInputComponent],
   templateUrl: './otp.component.html',
   styleUrls: ['./otp.component.scss']
 })
@@ -36,10 +37,10 @@ export class OtpComponent implements OnDestroy {
     private auth: AuthService,
     private router: Router
   ) {
-    this.email = this.router.getCurrentNavigation()?.extras.state?.['email']
+    this.email = this.router.currentNavigation()?.extras.state?.['email']
       ?? history.state?.email;
 
-    this.username = this.router.getCurrentNavigation()?.extras.state?.['username']
+    this.username = this.router.currentNavigation()?.extras.state?.['username']
       ?? history.state?.username;
 
     if (!this.email) {
