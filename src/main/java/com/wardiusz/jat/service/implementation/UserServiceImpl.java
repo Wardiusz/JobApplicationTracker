@@ -1,5 +1,6 @@
 package com.wardiusz.jat.service.implementation;
 
+import com.wardiusz.jat.exception.GlobalException;
 import com.wardiusz.jat.mapper.UserMapper;
 import com.wardiusz.jat.dto.request.CreateUserRequest;
 import com.wardiusz.jat.dto.UserDTO;
@@ -16,8 +17,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -32,7 +31,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO getUserById(Long id) {
         return UserMapper.toDTO(
                 userRepository.findById(id)
-                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+                        .orElseThrow(() -> new GlobalException(HttpStatus.NOT_FOUND, String.format("User with id %s not found.", id))));
     }
 
     @Override
@@ -49,7 +48,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new GlobalException(HttpStatus.NOT_FOUND,  String.format("User with name %s not found.", username)));
 
         if (!user.isEnabled()) {
             throw new DisabledException("Account is not verified.");

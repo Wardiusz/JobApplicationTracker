@@ -1,5 +1,6 @@
 package com.wardiusz.jat.service.implementation;
 
+import com.wardiusz.jat.exception.GlobalException;
 import com.wardiusz.jat.security.JwtTokenProvider;
 import com.wardiusz.jat.dto.request.LoginRequest;
 import com.wardiusz.jat.dto.request.RegisterRequest;
@@ -15,7 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 
@@ -44,15 +44,15 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void register(RegisterRequest registerRequest) {
         if (userRepository.findByUsername(registerRequest.getUsername()).isPresent()) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Username is taken.");
+            throw new GlobalException(HttpStatus.CONFLICT, "Username is taken."); // 409 error
         }
 
         if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Email is taken.");
+            throw new GlobalException(HttpStatus.CONFLICT, "Email is taken."); // 409 error
         }
 
         if (registerRequest.getPassword().length() < 8) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Password too short. Need to be at least 8 characters long.");
+            throw new GlobalException(HttpStatus.LENGTH_REQUIRED, "Password too short. Need to be at least 8 characters long."); // 411 error
         }
 
         User user = User.builder()

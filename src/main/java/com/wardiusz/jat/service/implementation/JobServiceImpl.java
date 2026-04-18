@@ -4,6 +4,7 @@ import com.wardiusz.jat.dto.JobDTO;
 import com.wardiusz.jat.dto.JobFilter;
 import com.wardiusz.jat.entity.Job;
 import com.wardiusz.jat.entity.User;
+import com.wardiusz.jat.exception.GlobalException;
 import com.wardiusz.jat.repository.JobRepository;
 import com.wardiusz.jat.repository.UserRepository;
 import com.wardiusz.jat.mapper.JobMapper;
@@ -12,7 +13,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -76,10 +76,10 @@ public class JobServiceImpl implements JobService {
     public Job getOwnedJob(String username, Long id) {
         Job job = jobRepository.findById(id)
                 .orElseThrow(() -> new
-                        ResponseStatusException(HttpStatus.NOT_FOUND));
+                        GlobalException(HttpStatus.NOT_FOUND, "Job not found."));
 
         if (!job.getUser().getUsername().equals(username))
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            throw new GlobalException(HttpStatus.FORBIDDEN, "Username not found.");
 
         return job;
     }
@@ -88,7 +88,6 @@ public class JobServiceImpl implements JobService {
         return userRepository
                 .findByUsername(username)
                 .orElseThrow(() -> new
-                        ResponseStatusException(
-                        HttpStatus.NOT_FOUND));
+                        GlobalException(HttpStatus.NOT_FOUND, "User not found."));
     }
 }
