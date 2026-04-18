@@ -57,8 +57,13 @@
           <label class="field-label">Hasło</label>
           <div class="field-wrap" [class.has-error]="f['password'].invalid && f['password'].touched">
             <span class="field-icon">⊛</span>
-            <input [type]="showPassword() ? 'text' : 'password'" class="field-input"
-              placeholder="••••••••" formControlName="password" autocomplete="new-password" />
+            <input
+              [type]="showPassword() ? 'text' : 'password'"
+              class="field-input"
+              [placeholder]="showPassword() ? 'password' : '••••••••'"
+              formControlName="password"
+              autocomplete="new-password"
+            />
             <button type="button" class="toggle-pass" (click)="showPassword.set(!showPassword())">
               {{ showPassword() ? '👁' : '◠' }}
             </button>
