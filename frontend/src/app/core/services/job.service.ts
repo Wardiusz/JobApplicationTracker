@@ -2,10 +2,11 @@ import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { Job, JobDTO, JobFilter } from '../models/job.model';
+import { environment } from "../../../environments/environment";
 
 @Injectable({ providedIn: 'root' })
 export class JobService {
-  private readonly API = 'http://localhost:8080/api/v1/jobs';
+  private readonly API = environment.apiUrl + '/api/v1/jobs';
 
   // Local state
   private _jobs = signal<Job[]>([]);

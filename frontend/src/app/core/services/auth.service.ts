@@ -1,13 +1,14 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import {map, tap} from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Observable} from 'rxjs';
-import {LoginRequest, OtpRequest, RegisterRequest} from '../models/auth.model';
+import { LoginRequest, OtpRequest, RegisterRequest } from '../models/auth.model';
+import { environment } from "../../../environments/environment";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly API = 'http://localhost:8080/api/v1/auth';
+  private readonly API = environment.apiUrl + '/api/v1/auth';
   private readonly USER_KEY = 'jat_user';
 
   isLoggedIn = signal<boolean>(this.getSavedUser() !== null);
