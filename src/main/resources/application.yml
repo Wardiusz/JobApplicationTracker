@@ -14,7 +14,7 @@ spring:
         driver-class-name: org.postgresql.Driver
         username: ${DB_USERNAME}
         password: ${DB_PASSWORD}
-        url: jdbc:postgresql://localhost:5432/postgres-jat-db
+        url: ${DB_URL}
     flyway:
         enabled: true
     jpa:
