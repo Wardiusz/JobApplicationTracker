@@ -35,4 +35,4 @@ spring:
                 starttls.enable: true
 app:
     cookie:
-        secure: false
+        secure: ${COOKIE_SECURE:false}
