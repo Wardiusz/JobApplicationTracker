@@ -14,6 +14,9 @@ export class JobService {
   // Derived stats
   totalActive = computed(() => this._jobs().filter(j => !j.archived).length);
   totalPending = computed(() => this._jobs().filter(j => !j.archived && j.status === 'PENDING').length);
+  totalScreening = computed(() => this._jobs().filter(j => !j.archived && j.status === 'SCREENING').length);
+  totalInterview = computed(() => this._jobs().filter(j => !j.archived && j.status === 'INTERVIEW').length);
+  totalOffer = computed(() => this._jobs().filter(j => !j.archived && j.status === 'OFFER').length);
   totalRejected = computed(() => this._jobs().filter(j => !j.archived && j.status === 'REJECTED').length);
   totalGhosted = computed(() => this._jobs().filter(j => !j.archived && j.status === 'GHOSTED').length);
   totalArchived = computed(() => this._jobs().filter(j => j.archived).length);
