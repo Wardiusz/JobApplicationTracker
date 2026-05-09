@@ -32,8 +32,9 @@
           <div class="user-name">{{ username() }}</div>
           <div class="user-role">FREE plan</div>
         </div>
+        <button type="button" class="btn-settings" routerLink="/settings" title="Ustawienia" aria-label="Ustawienia">⚙</button>
       </div>
-      <button class="btn-logout" (click)="logout()">Wyloguj się</button>
+      <button type="button" class="btn-logout" (click)="logout()">Wyloguj się</button>
     </div>
   </aside>
 
@@ -65,6 +66,27 @@
           [value]="totalPending()"
           sub="w toku"
           type="PENDING"
+          (clicked)="onStatClick($event)"
+        />
+        <app-stat-card
+          label="Wstępne rozmowy"
+          [value]="totalScreening()"
+          sub="odbyto"
+          type="SCREENING"
+          (clicked)="onStatClick($event)"
+        />
+        <app-stat-card
+          label="Rozmowy rekrutacyjne"
+          [value]="totalInterview()"
+          sub="przeprowadzono"
+          type="INTERVIEW"
+          (clicked)="onStatClick($event)"
+        />
+        <app-stat-card
+          label="Oferty"
+          [value]="totalOffer()"
+          sub="uzyskano"
+          type="OFFER"
           (clicked)="onStatClick($event)"
         />
         <app-stat-card

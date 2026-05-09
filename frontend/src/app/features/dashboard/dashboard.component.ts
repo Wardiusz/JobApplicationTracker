@@ -1,5 +1,6 @@
 import { Component, computed, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { JobService } from '../../core/services/job.service';
 import { Job, JobDTO, JobFilter } from '../../core/models/job.model';
@@ -11,7 +12,7 @@ import { JobModalComponent } from './job-modal/job-modal.component';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, StatCardComponent, FilterBarComponent, JobTableComponent, JobModalComponent],
+  imports: [CommonModule, RouterLink, StatCardComponent, FilterBarComponent, JobTableComponent, JobModalComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
@@ -36,6 +37,9 @@ export class DashboardComponent implements OnInit {
 
   // Stats from service
   totalActive   = this.jobSvc.totalActive;
+  totalScreening= this.jobSvc.totalScreening;
+  totalInterview= this.jobSvc.totalInterview;
+  totalOffer    = this.jobSvc.totalOffer;
   totalPending  = this.jobSvc.totalPending;
   totalRejected = this.jobSvc.totalRejected;
   totalGhosted  = this.jobSvc.totalGhosted;

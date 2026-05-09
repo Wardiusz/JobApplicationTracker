@@ -1,0 +1,49 @@
+<div class="shell">
+  <aside class="sidebar">
+    <a routerLink="/dashboard" class="logo logo-link">
+      <img src="/JobTracker.png" alt="" class="brand-icon" />
+      <span class="logo-name">Job<strong>Tracker</strong></span>
+    </a>
+
+    <nav class="nav">
+      <div class="nav-label">Menu</div>
+
+      <a
+        routerLink="/dashboard"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-item"
+      >
+        <span class="nav-ico">▦</span>
+        Dashboard
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-row">
+        <div class="avatar">{{ (username() ?? 'U')[0].toUpperCase() }}</div>
+        <div>
+          <div class="user-name">{{ username() }}</div>
+          <div class="user-role">FREE plan</div>
+        </div>
+        <button type="button" class="btn-settings" routerLink="/settings" title="Ustawienia" aria-label="Ustawienia">⚙</button>
+      </div>
+      <button type="button" class="btn-logout" (click)="logout()">Wyloguj się</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="page-title">
+        Ustawienia
+        <span class="page-sub">Zarządzanie kontem i personalizacja</span>
+      </div>
+    </header>
+
+    <div class="content">
+      <section class="settings-panel">
+        <p class="settings-placeholder">Tu pojawią się opcje ustawień.</p>
+      </section>
+    </div>
+  </div>
+</div>
