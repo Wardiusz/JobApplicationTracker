@@ -92,34 +92,34 @@ public class OtpTokenServiceImpl implements OtpTokenService {
     private String buildOtpEmail(String code) {
         return """
                     <div style="background:#f4f4f5;padding:40px 20px;font-family:Arial,sans-serif;">
-                      <div style="max-width:480px;margin:0 auto;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e4e4e7;">
-                
-                        <div style="background:#18181b;padding:32px;text-align:center;">
-                          <div style="display:inline-block;background:#e8911a;border-radius:8px;padding:8px 18px;">
-                            <span style="color:#fff;font-size:18px;font-weight:700;letter-spacing:1px;">JobApplicationTracker</span>
-                          </div>
+                        <div style="max-width:480px;margin:0 auto;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e4e4e7;">
+                            <div style="background:#e8911a;padding:32px;text-align:center;">
+                                <div style="display: flex; justify-content: center; align-items: center;">
+                                    <img src="JobTracker.png" style="width: 15%%;" alt="logo"/>
+                                    <span style="font-size:36px;color:#18181b;font-family:monospace;">Job<strong style="color: #f5a623; text-shadow: 0 0 4px rgba(0,0,0,0.6);">Tracker</strong></span>
+                                </div>
+                            </div>
+                    
+                            <div style="padding:36px 40px 28px;">
+                                <p style="margin:0 0 6px;font-size:22px;font-weight:700;color:#18181b;">Verify your email</p>
+                                <p style="margin:0 0 28px;font-size:15px;color:#71717a;line-height:1.6;">
+                                    Enter the code below to confirm your account. It expires in <strong style="color:#18181b;">5 minutes</strong>.
+                                </p>
+                                <div style="background:#f4f4f5;border-radius:10px;padding:24px;text-align:center;margin-bottom:28px;border:1px dashed #d4d4d8;">
+                                    <span style="font-size:36px;font-weight:bold;letter-spacing:10px;color:#18181b;font-family:monospace;">%s</span>
+                                </div>
+                                <p style="margin:0;font-size:13px;color:#a1a1aa;text-align:center;">
+                                    Didn't request this? You can safely ignore this email.
+                                </p>
+                            </div>
+                    
+                            <div style="border-top:1px solid #f4f4f5;padding:20px 40px;background:#fafafa;">
+                                <p style="margin:0;font-size:12px;color:#a1a1aa;text-align:center;">
+                                    This is an automated message. Please do not reply.
+                                </p>
+                            </div>
+                    
                         </div>
-                
-                        <div style="padding:36px 40px 28px;">
-                          <p style="margin:0 0 6px;font-size:22px;font-weight:700;color:#18181b;">Verify your email</p>
-                          <p style="margin:0 0 28px;font-size:15px;color:#71717a;line-height:1.6;">
-                            Enter the code below to confirm your account. It expires in <strong style="color:#18181b;">5 minutes</strong>.
-                          </p>
-                          <div style="background:#f4f4f5;border-radius:10px;padding:24px;text-align:center;margin-bottom:28px;border:1px dashed #d4d4d8;">
-                            <span style="font-size:36px;font-weight:800;letter-spacing:10px;color:#18181b;font-family:monospace;">%s</span>
-                          </div>
-                          <p style="margin:0;font-size:13px;color:#a1a1aa;text-align:center;">
-                            Didn't request this? You can safely ignore this email.
-                          </p>
-                        </div>
-                
-                        <div style="border-top:1px solid #f4f4f5;padding:20px 40px;background:#fafafa;">
-                          <p style="margin:0;font-size:12px;color:#a1a1aa;text-align:center;">
-                            This is an automated message. Please do not reply.
-                          </p>
-                        </div>
-                
-                      </div>
                     </div>
                 """.formatted(code);
     }
