@@ -10,18 +10,25 @@ management:
             exposure:
                 include: "*"
 spring:
+    main:
+        lazy-initialization: true
     datasource:
         driver-class-name: org.postgresql.Driver
         username: ${DB_USERNAME}
         password: ${DB_PASSWORD}
         url: ${DB_URL}
+        hikari:
+            maximum-pool-size: 5
+            minimum-idle: 1
+            idle-timeout: 30000
+            max-lifetime: 1800000
     flyway:
         enabled: true
     jpa:
         database-platform: org.hibernate.dialect.PostgreSQLDialect
         hibernate:
-            ddl-auto: update
-        show-sql: true
+            ddl-auto: validate
+        show-sql: false
     config:
         import: optional:env.properties
     mail:
@@ -36,3 +43,7 @@ spring:
 app:
     cookie:
         secure: ${COOKIE_SECURE:false}
+server:
+    tomcat:
+        threads:
+            max: 20
