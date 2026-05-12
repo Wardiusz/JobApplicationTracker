@@ -1,13 +1,14 @@
 package com.wardiusz.jat.service.implementation;
 
+import com.resend.Resend;
+import com.resend.core.exception.ResendException;
+import com.resend.services.emails.model.CreateEmailOptions;
+import com.resend.services.emails.model.CreateEmailResponse;
 import com.wardiusz.jat.entity.OtpToken;
 import com.wardiusz.jat.repository.OtpRepository;
 import com.wardiusz.jat.service.OtpTokenService;
-import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +20,11 @@ import java.util.Optional;
 @Service
 public class OtpTokenServiceImpl implements OtpTokenService {
 
-    @Value("${spring.mail.username}")
+    @Value("${MAIL_ADDRESS}")
     private String otpSender;
 
-    private final JavaMailSender mailSender;
+    @Value("${RESEND_SECRET}")
+    private String resendKey;
 
     private final OtpRepository otpRepository;
 
@@ -49,18 +51,20 @@ public class OtpTokenServiceImpl implements OtpTokenService {
 
     @Override
     public void sendOtp(String email, String code) {
+        Resend resend = new Resend(resendKey);
+
+        CreateEmailOptions params = CreateEmailOptions.builder()
+                .from(otpSender)
+                .to(email)
+                .subject("JAT - Your verification code")
+                .html(buildOtpEmail(code))
+                .build();
+
         try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
-            helper.setFrom(otpSender);
-            helper.setTo(email);
-            helper.setSubject("Your verification code");
-            helper.setText(buildOtpEmail(code), true);
-
-            mailSender.send(message);
-        } catch (Exception e) {
-            throw new RuntimeException("Error while sending mail");
+            CreateEmailResponse data = resend.emails().send(params);
+            System.out.println(data.getId());
+        } catch (ResendException e) {
+            e.printStackTrace();
         }
     }
 
@@ -99,7 +103,6 @@ public class OtpTokenServiceImpl implements OtpTokenService {
                                     <span style="font-size:36px;color:#18181b;font-family:monospace;">Job<strong style="color: #f5a623; text-shadow: 0 0 4px rgba(0,0,0,0.6);">Tracker</strong></span>
                                 </div>
                             </div>
-                    
                             <div style="padding:36px 40px 28px;">
                                 <p style="margin:0 0 6px;font-size:22px;font-weight:700;color:#18181b;">Verify your email</p>
                                 <p style="margin:0 0 28px;font-size:15px;color:#71717a;line-height:1.6;">
@@ -112,13 +115,11 @@ public class OtpTokenServiceImpl implements OtpTokenService {
                                     Didn't request this? You can safely ignore this email.
                                 </p>
                             </div>
-                    
                             <div style="border-top:1px solid #f4f4f5;padding:20px 40px;background:#fafafa;">
                                 <p style="margin:0;font-size:12px;color:#a1a1aa;text-align:center;">
                                     This is an automated message. Please do not reply.
                                 </p>
                             </div>
-                    
                         </div>
                     </div>
                 """.formatted(code);
