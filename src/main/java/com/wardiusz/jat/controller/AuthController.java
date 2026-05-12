@@ -35,7 +35,8 @@ public class AuthController {
     // POST /api/v1/auth/otp-resend
     @PostMapping("/otp-resend")
     public ResponseEntity<?> resendOtp(@RequestBody OtpRequest otpRequest) {
-        return ResponseEntity.ok(otpTokenService.generateAndSendOTP(otpRequest.getEmail()));
+        otpTokenService.generateAndSendOTP(otpRequest.getEmail());
+        return ResponseEntity.ok().build();
     }
 
     // POST /api/v1/auth/otp-verify
