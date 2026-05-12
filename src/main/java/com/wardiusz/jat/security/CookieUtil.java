@@ -21,7 +21,7 @@ public class CookieUtil {
         return ResponseCookie.from("access_token", token)
                 .httpOnly(true)
                 .secure(secureCookie)
-                .sameSite("Strict")
+                .sameSite("None")
                 .path("/")
                 .maxAge(accessTokenExpiration / 1000)
                 .build();
@@ -31,7 +31,7 @@ public class CookieUtil {
         return ResponseCookie.from("refresh_token", token)
                 .httpOnly(true)
                 .secure(secureCookie)
-                .sameSite("Strict")
+                .sameSite("None")
                 .path("/api/v1/auth/refresh")
                 .maxAge(refreshTokenExpiration / 1000)
                 .build();
@@ -41,7 +41,7 @@ public class CookieUtil {
         return ResponseCookie.from("access_token", "")
                 .httpOnly(true)
                 .secure(secureCookie)
-                .sameSite("Strict")
+                .sameSite("None")
                 .path("/")
                 .maxAge(0)
                 .build();
