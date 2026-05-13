@@ -66,7 +66,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:4200", "https://jat-demo.wardiusz.dev"));
+        config.setAllowedOrigins(List.of("https://jat-demo.wardiusz.dev"));
         config.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE","OPTIONS"));
         config.setAllowedHeaders(List.of("Set-Cookie"));
         config.setAllowedHeaders(List.of("*"));
