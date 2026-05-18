@@ -32,9 +32,9 @@
 
 html, body {
   height: 100%;
-  overflow: hidden;
-  scrollbar-color: var(--accent) var(--bg2);
+  scrollbar-color: rgb(245 166 35 / 0.66) var(--bg2);
   scrollbar-width: thin;
+  scroll-behavior: smooth;
 }
 
 body {
