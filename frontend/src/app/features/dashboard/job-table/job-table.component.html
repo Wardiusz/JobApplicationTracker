@@ -89,6 +89,7 @@
           <td>
             <div class="row-actions">
               <button class="action-btn" (click)="editJob.emit(job)">Edytuj</button>
+              <button class="action-btn" (click)="deleteJob.emit(job.id!)">Usuń</button>
               @if (!job.archived) {
                 <button class="action-btn warn" (click)="archiveJob.emit(job.id!)">Archiwizuj</button>
               } @else {
