@@ -34,6 +34,13 @@ public class JobController {
         return ResponseEntity.ok(jobService.addJob(auth.getName(), dto));
     }
 
+    @Transactional
+    @PutMapping("/{id}/delete")
+    public ResponseEntity<Void> deleteJob(Authentication auth, @PathVariable Long id) {
+        jobService.deleteJob(auth.getName(), id);
+        return ResponseEntity.ok().build();
+    }
+
     // PUT /api/jobs/{id}/update
     @Transactional
     @PutMapping("/{id}/update")

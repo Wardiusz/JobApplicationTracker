@@ -45,6 +45,12 @@ public class JobServiceImpl implements JobService {
                 jobRepository.save(job));
     }
 
+    public void deleteJob(String username, Long id) {
+        Job job = getOwnedJob(username, id);
+
+        jobRepository.delete(job);
+    }
+
     public JobDTO updateJob(String username, Long id, JobDTO dto) {
         Job job = getOwnedJob(username, id);
         JobMapper.updateEntity(job, dto);

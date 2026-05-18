@@ -14,6 +14,8 @@ public interface JobService {
 
     JobDTO addJob(String username, JobDTO dto);
 
+    void deleteJob(String username, Long id);
+
     JobDTO updateJob(String username, Long id, JobDTO dto);
 
     JobDTO updateNotes(String username, Long id, String notes);
