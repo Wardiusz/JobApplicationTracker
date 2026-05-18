@@ -6,8 +6,8 @@
 
 // ── Sidebar ──
 .sidebar {
-  width: 220px;
-  flex-shrink: 0;
+  min-width: 170px;
+  flex-shrink: 1;
   background: var(--bg2);
   border-right: 1px solid var(--border);
   display: flex;
@@ -158,7 +158,7 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--purple), var(--blue));
+  background: linear-gradient(135deg, var(--accent), var(--purple));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -193,8 +193,9 @@
   transition: color .15s, border-color .15s;
 
   &:hover {
+    background: rgba(255, 95, 107, 0.08);
     color: var(--red);
-    border-color: var(--red);
+    border-color: rgba(255, 95, 107, 0.35);
   }
 }
 
@@ -314,7 +315,7 @@
   }
 
   &--info {
-    border-color: var(--accent);
+    border-color: rgba(245, 166, 35, 0.35);
     color: var(--accent);
 
     .toast-dot {
@@ -325,7 +326,7 @@
   }
 
   &--success {
-    border-color: var(--green);
+    border-color: rgba(61, 214, 140, 0.35);
     color: var(--green);
 
     .toast-dot {
@@ -336,7 +337,7 @@
   }
 
   &--error {
-    border-color: var(--red);
+    border-color: rgb(255, 95, 107, 0.35);
     color: var(--red);
 
     .toast-dot {
@@ -362,8 +363,8 @@
   flex-direction: column;
   align-items: center;
   padding: 32px;
-  background: var(--bg3);
-  border: 1px solid var(--border2);
+  background: var(--bg2);
+  border: 1px solid var(--border);
   border-radius: var(--r);
   box-shadow: 0 8px 32px rgba(0, 0, 0, .45);
   max-width: 360px;
@@ -403,8 +404,13 @@
       &:hover { opacity: .85; }
 
       &--danger {
-        background: var(--red);
-        color: #fff;
+        background-color: transparent;
+        color: var(--red);
+        border: 1px solid rgb(255, 95, 107, 0.35);
+
+        &:hover {
+          background: rgb(255, 95, 107, 0.08);
+        }
       }
 
       &--outline {
