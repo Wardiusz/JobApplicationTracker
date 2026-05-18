@@ -24,9 +24,10 @@ const CONTRACT_LABELS: Record<string, string> = {
 export class JobTableComponent {
   jobs = input.required<Job[]>();
 
-  editJob    = output<Job>();
+  editJob = output<Job>();
   archiveJob = output<number>();
   restoreJob = output<number>();
+  deleteJob = output<number>();
 
   sortKey = signal<SortKey>('date_applied');
   sortDir = signal<1 | -1>(-1);
@@ -37,15 +38,44 @@ export class JobTableComponent {
     return [...this.jobs()].sort((a, b) => {
       let va: any, vb: any;
       switch (key) {
-        case 'company':      va = a.company;             vb = b.company;            break;
-        case 'position':     va = a.position;            vb = b.position;           break;
-        case 'contract':     va = a.contract;            vb = b.contract;           break;
-        case 'status':       va = a.status;              vb = b.status;             break;
-        case 'salary':       va = a.salaryHighest ?? 0;  vb = b.salaryHighest ?? 0; break;
-        case 'date_closing': va = a.dateClosing ?? '';   vb = b.dateClosing ?? '';  break;
-        default:             va = a.dateApplied ?? '';   vb = b.dateApplied ?? '';
+        case 'company':
+          va = a.company;
+          vb = b.company;
+          break;
+
+        case 'position':
+          va = a.position;
+          vb = b.position;
+          break;
+
+        case 'contract':
+          va = a.contract;
+          vb = b.contract;
+          break;
+
+        case 'status':
+          va = a.status;
+          vb = b.status;
+          break;
+
+        case 'salary':
+          va = a.salaryHighest ?? 0;
+          vb = b.salaryHighest ?? 0;
+          break;
+
+        case 'date_closing':
+          va = a.dateClosing ?? '';
+          vb = b.dateClosing ?? '';
+          break;
+
+        default:
+          va = a.dateApplied ?? '';
+          vb = b.dateApplied ?? '';
       }
-      if (typeof va === 'string') return dir * va.localeCompare(vb);
+
+      if (typeof va === 'string')
+        return dir * va.localeCompare(vb);
+
       return dir * (va - vb);
     });
   });
@@ -104,63 +134,79 @@ export class JobTableComponent {
   // Główna metoda
   calcNet(gross: number, contract: string): number {
     switch (contract) {
-      case 'UOP':  return this.calcUoP(gross);
-      case 'B2B':  return this.calcB2B(gross);
-      case 'UOZ':  return this.calcUoZ(gross);
-      case 'UOD':  return this.calcUoD(gross);
-      default:     return gross;
+      case 'UOP':
+        return this.calcUoP(gross);
+
+      case 'B2B':
+        return this.calcB2B(gross);
+
+      case 'UOZ':
+        return this.calcUoZ(gross);
+
+      case 'UOD':
+        return this.calcUoD(gross);
+
+      default:
+        return gross;
     }
   }
 
 // Umowa o pracę
   private calcUoP(gross: number): number {
-    const zus       = gross * 0.1371;                             // emerytalne 9.76% + rentowe 1.5% + chorobowe 2.45%
-    const health    = (gross - zus) * 0.09;                       // składka zdrowotna
-    const taxBase   = Math.max(0, gross - zus - 250);     // koszty uzyskania przychodu
-    const tax       = Math.max(0, taxBase * 0.12 - 300);  // 12% - ulga podatkowa
+    const zus = gross * 0.1371;                              // emerytalne 9.76% + rentowe 1.5% + chorobowe 2.45%
+    const health = (gross - zus) * 0.09;                     // składka zdrowotna
+    const taxBase = Math.max(0, gross - zus - 250); // koszty uzyskania przychodu
+    const tax = Math.max(0, taxBase * 0.12 - 300);  // 12% - ulga podatkowa
+
     return Math.round(gross - zus - health - tax);
   }
 
 // B2B – podatek liniowy 19%, preferencyjny ZUS (pierwsze 24 miesiące)
   private calcB2B(gross: number): number {
     // Preferencyjne składki społeczne (podstawa = 30% minimalnego wynagrodzenia)
-    const emerytalna  = 273.24;
-    const rentowa     = 111.98;
-    const wypadkowa   = 23.38;
+    const emerytalna = 273.24;
+    const rentowa = 111.98;
+    const wypadkowa = 23.38;
     const zusSpołeczny = emerytalna + rentowa + wypadkowa; // bez chorobowego
 
     // Składka zdrowotna – 4.9% dochodu (podatek liniowy)
-    const taxBase  = Math.max(0, gross - zusSpołeczny);
-    const health   = taxBase * 0.049;
-    const tax      = taxBase * 0.19;
+    const taxBase = Math.max(0, gross - zusSpołeczny);
+    const health = taxBase * 0.049;
+    const tax = taxBase * 0.19;
 
     return Math.round(gross - zusSpołeczny - health - tax);
   }
 
 // Umowa zlecenie (chorobowe dobrowolne – bez)
   private calcUoZ(gross: number): number {
-    const zus     = gross * 0.1126;               // emerytalne + rentowe (bez chorobowego)
-    const base    = gross - zus;                  // brutto - ZUS
-    const health  = base * 0.09;
-    const kup     = base * 0.20;
+    const zus = gross * 0.1126;               // emerytalne + rentowe (bez chorobowego)
+    const base = gross - zus;                 // brutto - ZUS
+    const health = base * 0.09;
+    const kup = base * 0.20;
     const taxBase = Math.floor(base - kup);
-    const tax     = Math.round(taxBase * 0.12);   // bez ulgi (brak PIT-2)
+    const tax = Math.round(taxBase * 0.12);   // bez ulgi (brak PIT-2)
+
     return Math.round(gross - zus - health - tax);
   }
 
 // Umowa o dzieło
   private calcUoD(gross: number): number {
-    const kup     = gross * 0.20;        // 20% koszty uzyskania przychodu
-    const taxBase = gross - kup;         // podstawa opodatkowania
-    const tax     = taxBase * 0.12;      // 12% podatek
+    const kup = gross * 0.20;        // 20% koszty uzyskania przychodu
+    const taxBase = gross - kup;     // podstawa opodatkowania
+    const tax = taxBase * 0.12;      // 12% podatek
+
     return Math.round(gross - tax);
   }
 
 // Formatowanie netto
   fmtNet(low: number | null, high: number | null, contract: string): string {
     const fmt = (n: number) => new Intl.NumberFormat('pl-PL').format(n);
-    if (low && high) return `${fmt(this.calcNet(low, contract))} – ${fmt(this.calcNet(high, contract))}`;
-    if (high)        return fmt(this.calcNet(high, contract));
+
+    if (low && high)
+      return `${fmt(this.calcNet(low, contract))} – ${fmt(this.calcNet(high, contract))}`;
+
+    if (high)
+      return fmt(this.calcNet(high, contract));
     return '—';
   }
 
