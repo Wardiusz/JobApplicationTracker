@@ -14,16 +14,19 @@ export class FilterBarComponent {
   initialFilter = input<JobFilter>({});
   filterChange = output<JobFilter>();
 
-  search   = signal('');
-  status   = signal<JobStatus | ''>('');
+  search = signal('');
+  status = signal<JobStatus | ''>('');
   position = signal<JobPosition | ''>('');
   contract = signal<JobContract | ''>('');
 
   readonly STATUS_CHIPS: { label: string; value: JobStatus | '' }[] = [
     { label: 'Wszystkie', value: '' },
     { label: 'Oczekujące', value: 'PENDING' },
-    { label: 'Odrzucone',  value: 'REJECTED' },
+    { label: 'Screening', value: 'SCREENING' },
+    { label: 'Rozmowy o prace', value: 'INTERVIEW' },
+    { label: 'Oferty', value: 'OFFER' },
     { label: 'Ghostowane', value: 'GHOSTED' },
+    { label: 'Odrzucone',  value: 'REJECTED' },
   ];
 
   setStatus(v: JobStatus | '') {
