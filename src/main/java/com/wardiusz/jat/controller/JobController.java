@@ -35,10 +35,10 @@ public class JobController {
     }
 
     @Transactional
-    @PutMapping("/{id}/delete")
+    @DeleteMapping("/{id}/delete")
     public ResponseEntity<Void> deleteJob(Authentication auth, @PathVariable Long id) {
         jobService.deleteJob(auth.getName(), id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     // PUT /api/jobs/{id}/update
