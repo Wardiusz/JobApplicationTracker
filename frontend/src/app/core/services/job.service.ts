@@ -60,6 +60,12 @@ export class JobService {
     );
   }
 
+  deleteJob(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.API}/${id}/delete`, {}).pipe(
+      tap(() => this._jobs.update(list => list.filter(j => j.id !== id)))
+    );
+  }
+
   updateNotes(id: number, notes: string): Observable<Job> {
     return this.http.patch<Job>(`${this.API}/${id}/notes`, notes, {
       headers: { 'Content-Type': 'text/plain' }
