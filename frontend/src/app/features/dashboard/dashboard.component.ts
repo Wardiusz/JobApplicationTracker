@@ -8,17 +8,22 @@ import { StatCardComponent, StatType } from './stat-card/stat-card.component';
 import { FilterBarComponent } from './filter-bar/filter-bar.component';
 import { JobTableComponent } from './job-table/job-table.component';
 import { JobModalComponent } from './job-modal/job-modal.component';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ButtonModule } from 'primeng/button'
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink, StatCardComponent, FilterBarComponent, JobTableComponent, JobModalComponent],
+  imports: [CommonModule, RouterLink, StatCardComponent, FilterBarComponent, JobTableComponent, JobModalComponent, ConfirmDialogModule, ButtonModule],
+  providers: [ConfirmationService],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
   private auth = inject(AuthService);
   private jobSvc = inject(JobService);
+  private confirmationService = inject(ConfirmationService);
 
   username = this.auth.currentUser;
 
@@ -33,16 +38,17 @@ export class DashboardComponent implements OnInit {
   // Toast
   toastMsg  = signal('');
   toastShow = signal(false);
+  toastType = signal<'success' | 'error'>('success');
   private toastTimer: any;
 
   // Stats from service
-  totalActive   = this.jobSvc.totalActive;
-  totalScreening= this.jobSvc.totalScreening;
-  totalInterview= this.jobSvc.totalInterview;
-  totalOffer    = this.jobSvc.totalOffer;
-  totalPending  = this.jobSvc.totalPending;
+  totalActive = this.jobSvc.totalActive;
+  totalScreening = this.jobSvc.totalScreening;
+  totalInterview = this.jobSvc.totalInterview;
+  totalOffer = this.jobSvc.totalOffer;
+  totalPending = this.jobSvc.totalPending;
   totalRejected = this.jobSvc.totalRejected;
-  totalGhosted  = this.jobSvc.totalGhosted;
+  totalGhosted = this.jobSvc.totalGhosted;
   totalArchived = this.jobSvc.totalArchived;
 
   // Filtered view
@@ -57,7 +63,7 @@ export class DashboardComponent implements OnInit {
 
   loadJobs() {
     this.jobSvc.loadJobs({ includeArchived: true }).subscribe({
-      error: () => this.toast('Błąd ładowania danych')
+      error: () => this.toast('Błąd ładowania danych', 'error')
     });
   }
 
@@ -95,14 +101,14 @@ export class DashboardComponent implements OnInit {
         this.closeModal();
         this.toast(event.id ? 'Oferta zaktualizowana' : 'Oferta dodana');
       },
-      error: () => this.toast('Błąd zapisu')
+      error: () => this.toast('Błąd zapisu rekordu', 'error')
     });
   }
 
   onArchive(id: number) {
     this.jobSvc.archiveJob(id).subscribe({
-      next: () => this.toast('Oferta zarchiwizowana'),
-      error: () => this.toast('Błąd archiwizacji')
+      next: () => this.toast('Oferta zarchiwizowana rekordu'),
+      error: () => this.toast('Błąd archiwizacji', 'error')
     });
   }
 
@@ -110,8 +116,23 @@ export class DashboardComponent implements OnInit {
     const job = this.jobSvc.getJobs().find(j => j.id === id);
     if (!job) return;
     this.jobSvc.unArchiveJob(id).subscribe({
-      next: () => this.toast('Przywrócono z archiwum'),
-      error: () => this.toast('Błąd przywracania')
+      next: () => this.toast('Przywrócono rekord z archiwum'),
+      error: () => this.toast('Błąd przywracania rekordu z archiwum', 'error')
+    });
+  }
+  onDelete(id: number): void {
+    const job = this.jobSvc.getJobs().find(j => j.id === id);
+    if (!job) return;
+
+    this.confirmationService.confirm({
+      header: 'Usuń ofertę',
+      message: `Czy na pewno chcesz usunąć? Tej operacji nie można cofnąć.`,
+      accept: () => {
+        this.jobSvc.deleteJob(id).subscribe({
+          next: () => this.toast('Usunięto rekord'),
+          error: () => this.toast('Błąd usuwania rekordu', 'error')
+        });
+      }
     });
   }
 
@@ -121,9 +142,10 @@ export class DashboardComponent implements OnInit {
 
   logout() { this.auth.logout(); }
 
-  private toast(msg: string) {
+  private toast(msg: string, type: 'success' | 'error' = 'success') {
     clearTimeout(this.toastTimer);
     this.toastMsg.set(msg);
+    this.toastType.set(type);
     this.toastShow.set(true);
     this.toastTimer = setTimeout(() => this.toastShow.set(false), 2800);
   }
