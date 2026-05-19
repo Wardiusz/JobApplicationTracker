@@ -1,0 +1,53 @@
+jwt:
+    secret: ${DB_SECRET}
+    access:
+        expiration: 900000
+    refresh:
+        expiration: 86400000
+management:
+    endpoints:
+        web:
+            exposure:
+                include: "health,info,metrics"
+spring:
+    main:
+        lazy-initialization: true
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        username: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
+        url: ${DB_URL}
+        hikari:
+            maximum-pool-size: 5
+            minimum-idle: 1
+            idle-timeout: 600000
+            max-lifetime: 1800000
+            connection-timeout: 20000
+            leak-detection-threshold: 60000
+    flyway:
+        enabled: true
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        open-in-view: false
+        hibernate:
+            ddl-auto: validate
+        show-sql: false
+        properties:
+            hibernate:
+                jdbc:
+                    fetch_size: 50
+                    batch_size: 25
+                order_inserts: true
+                order_updates: true
+    config:
+        import: optional:env.properties
+app:
+    cookie:
+        secure: ${COOKIE_SECURE:false}
+server:
+    tomcat:
+        threads:
+            max: 20
+            min-spare: 5
+        max-connections: 100
+        accept-count: 50
