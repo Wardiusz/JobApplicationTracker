@@ -20,6 +20,7 @@
 - [Application Status Flow](#application-status-flow)
 - [Exception Handling & Responses](#exception-handling--responses)
 - [Security Notes](#security-notes)
+- [Developer Notes](#developer-notes)
 - [License](#license)
 
 ---
