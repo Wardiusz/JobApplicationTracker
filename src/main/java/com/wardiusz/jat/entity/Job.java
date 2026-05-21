@@ -35,8 +35,7 @@ public class Job {
     private BigDecimal salaryHighest;
 
     @DateTimeFormat
-    @CreationTimestamp
-    @Column(name = "createdAt", updatable = false)
+    @Column(name = "createdAt")
     private LocalDate appliedDate;
 
     @DateTimeFormat
