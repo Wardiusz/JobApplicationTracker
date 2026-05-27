@@ -34,6 +34,7 @@ public class JobController {
         return ResponseEntity.ok(jobService.addJob(auth.getName(), dto));
     }
 
+    // DELETE /api/jobs/{id}/delete
     @Transactional
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<Void> deleteJob(Authentication auth, @PathVariable Long id) {

@@ -1,11 +1,43 @@
 services:
-  postgres-db:
-    image: 'postgres:latest'
+  db:
+    image: 'postgres:18'
     container_name: jat-postgres
     restart: unless-stopped
     environment:
       POSTGRES_DB: postgres-jat-db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres} -d postgres-jat-db" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: backend-jat-app
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: postgres-jat-db
+      DB_SECRET: ${DB_SECRET}
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      MAIL_ADDRESS: ${MAIL_ADDRESS}
+      RESEND_SECRET: ${RESEND_SECRET}
+
+volumes:
+  postgres_data:
