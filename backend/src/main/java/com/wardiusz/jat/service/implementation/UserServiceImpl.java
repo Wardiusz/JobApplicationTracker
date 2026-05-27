@@ -31,7 +31,13 @@ public class UserServiceImpl implements UserService {
     public UserDTO getUserById(Long id) {
         return UserMapper.toDTO(
                 userRepository.findById(id)
-                        .orElseThrow(() -> new GlobalException(HttpStatus.NOT_FOUND, String.format("User with id %s not found.", id))));
+                        .orElseThrow(() -> new GlobalException(HttpStatus.NOT_FOUND, String.format("User with id %s not found.", id)))
+        );
+    }
+
+    private User getUser(Long id) {
+        return userRepository.findById(id)
+                        .orElseThrow(() -> new GlobalException(HttpStatus.NOT_FOUND, String.format("User with id %s not found.", id)));
     }
 
     @Override
@@ -41,7 +47,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long id) {
+        User user = getUser(id);
 
+        userRepository.delete(user);
+    }
+
+    @Override
+    public UserDTO updateUser(Long id, UserDTO dto) {
+        User user = getUser(id);
+
+        UserMapper.updateEntity(user, dto);
+
+        return UserMapper.toDTO(userRepository.save(user));
     }
 
     @NullMarked

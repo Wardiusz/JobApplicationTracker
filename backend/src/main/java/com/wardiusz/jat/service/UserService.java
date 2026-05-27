@@ -8,6 +8,8 @@ public interface UserService extends UserDetailsService {
 
         UserDTO getUserById(Long id);
 
+        UserDTO updateUser(Long id, UserDTO userDTO);
+
         UserDTO createUser(CreateUserRequest request);
 
         void deleteUser(Long id);
