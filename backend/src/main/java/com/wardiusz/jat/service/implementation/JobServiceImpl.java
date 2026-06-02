@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class JobServiceImpl implements JobService {
         );
     }
 
+    @Transactional
     public JobDTO addJob(String username, JobDTO dto) {
         User user = getUser(username);
         Job job = JobMapper.toEntity(dto, user);
@@ -45,12 +47,14 @@ public class JobServiceImpl implements JobService {
                 jobRepository.save(job));
     }
 
+    @Transactional
     public void deleteJob(String username, Long id) {
         Job job = getOwnedJob(username, id);
 
         jobRepository.delete(job);
     }
 
+    @Transactional
     public JobDTO updateJob(String username, Long id, JobDTO dto) {
         Job job = getOwnedJob(username, id);
         JobMapper.updateEntity(job, dto);
@@ -58,6 +62,7 @@ public class JobServiceImpl implements JobService {
         return JobMapper.toDto(jobRepository.save(job));
     }
 
+    @Transactional
     public JobDTO updateNotes(String username, Long id, String notes) {
         Job job = getOwnedJob(username, id);
         job.setNotes(notes);
@@ -65,6 +70,7 @@ public class JobServiceImpl implements JobService {
         return JobMapper.toDto(jobRepository.save(job));
     }
 
+    @Transactional
     public void archiveJob(String username, Long id) {
         Job job = getOwnedJob(username, id);
         job.setArchived(true);
@@ -72,6 +78,7 @@ public class JobServiceImpl implements JobService {
         jobRepository.save(job);
     }
 
+    @Transactional
     public void unArchiveJob(String username, Long id) {
         Job job = getOwnedJob(username, id);
         job.setArchived(false);

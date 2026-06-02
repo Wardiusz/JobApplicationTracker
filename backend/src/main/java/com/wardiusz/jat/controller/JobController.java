@@ -27,7 +27,6 @@ public class JobController {
     }
 
     // POST /api/jobs
-    @Transactional
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<JobDTO> addJob(Authentication auth, @RequestBody @Valid JobDTO dto) {
@@ -35,7 +34,6 @@ public class JobController {
     }
 
     // DELETE /api/jobs/{id}/delete
-    @Transactional
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<Void> deleteJob(Authentication auth, @PathVariable Long id) {
         jobService.deleteJob(auth.getName(), id);
@@ -43,21 +41,18 @@ public class JobController {
     }
 
     // PUT /api/jobs/{id}/update
-    @Transactional
     @PutMapping("/{id}/update")
     public ResponseEntity<JobDTO> updateJob(Authentication auth, @PathVariable Long id, @RequestBody @Valid JobDTO dto) {
         return ResponseEntity.ok(jobService.updateJob(auth.getName(), id, dto));
     }
 
     // PATCH /api/jobs/{id}/notes
-    @Transactional
     @PatchMapping("/{id}/notes")
     public ResponseEntity<JobDTO> updateNotes(Authentication auth, @PathVariable Long id, @RequestBody String notes) {
         return ResponseEntity.ok(jobService.updateNotes(auth.getName(), id, notes));
     }
 
     // PATCH /api/jobs/{id}/archive
-    @Transactional
     @PatchMapping("/{id}/archive")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> archiveJob(Authentication auth, @PathVariable Long id) {
@@ -66,7 +61,6 @@ public class JobController {
     }
 
     // PATCH /api/jobs/{id}/unarchive
-    @Transactional
     @PatchMapping("/{id}/unarchive")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> unArchiveJob(Authentication auth, @PathVariable Long id) {
