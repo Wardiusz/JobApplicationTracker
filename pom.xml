@@ -125,6 +125,13 @@
     </dependencies>
 
     <build>
+        <sourceDirectory>${project.basedir}/backend/src/main/java</sourceDirectory>
+        <testSourceDirectory>${project.basedir}/backend/src/test/java</testSourceDirectory>
+        <resources>
+            <resource>
+                <directory>${project.basedir}/backend/src/main/resources</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
