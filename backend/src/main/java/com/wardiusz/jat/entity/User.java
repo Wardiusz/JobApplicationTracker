@@ -35,9 +35,11 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserType type;
 
+    @Builder.Default
     @Column(nullable = false)
     private boolean enabled = false;
 
+    @Builder.Default
     @OneToMany(mappedBy = "user",
               cascade = CascadeType.ALL,
               orphanRemoval = true)

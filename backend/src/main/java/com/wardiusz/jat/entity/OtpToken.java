@@ -26,6 +26,7 @@ public class OtpToken {
     @Column
     private String email;
 
+    @Builder.Default
     @Column
     private boolean used = false;
 
