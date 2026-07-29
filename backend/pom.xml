@@ -5,12 +5,12 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.3</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>4.0.7</version>
+        <relativePath/>
     </parent>
     <groupId>com.wardiusz</groupId>
-    <artifactId>jat</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>backend</artifactId>
+    <version>1.0.0</version>
     <name>JobApplicationTracker</name>
     <description>JobApplicationTracker</description>
     <url/>
@@ -27,7 +27,10 @@
         <url/>
     </scm>
     <properties>
-        <java.version>17</java.version>
+        <java.version>25</java.version>
+        <jjwt.version>0.12.6</jjwt.version>
+        <resend.version>LATEST</resend.version>
+        <swagger.version>3.0.2</swagger.version>
     </properties>
     <dependencies>
         <dependency>
@@ -47,22 +50,26 @@
             <artifactId>spring-boot-starter-webmvc</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-flyway</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-impl</artifactId>
-            <version>0.12.6</version>
+            <version>${jjwt.version}</version>
             <scope>runtime</scope>
         </dependency>
 
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
-            <version>0.12.6</version>
+            <version>${jjwt.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
-            <version>0.12.6</version>
+            <version>${jjwt.version}</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -120,18 +127,16 @@
         <dependency>
             <groupId>com.resend</groupId>
             <artifactId>resend-java</artifactId>
-            <version>LATEST</version>
+            <version>${resend.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${swagger.version}</version>
         </dependency>
     </dependencies>
 
     <build>
-        <sourceDirectory>${project.basedir}/backend/src/main/java</sourceDirectory>
-        <testSourceDirectory>${project.basedir}/backend/src/test/java</testSourceDirectory>
-        <resources>
-            <resource>
-                <directory>${project.basedir}/backend/src/main/resources</directory>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -159,5 +164,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
