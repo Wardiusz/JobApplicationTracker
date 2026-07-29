@@ -30,7 +30,7 @@ spring:
         database-platform: org.hibernate.dialect.PostgreSQLDialect
         open-in-view: false
         hibernate:
-            ddl-auto: update
+            ddl-auto: validate
         show-sql: false
         properties:
             hibernate:
@@ -44,6 +44,8 @@ spring:
 app:
     cookie:
         secure: ${COOKIE_SECURE:false}
+    cors:
+        allowed-origins: "https://jat-demo.wardiusz.dev"
 server:
     tomcat:
         threads:
@@ -51,3 +53,6 @@ server:
             min-spare: 5
         max-connections: 100
         accept-count: 50
+springdoc:
+    swagger-ui:
+        enabled: ${SWAGGER_UI:false}
