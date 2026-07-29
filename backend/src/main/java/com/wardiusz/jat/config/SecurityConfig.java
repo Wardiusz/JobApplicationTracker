@@ -3,6 +3,7 @@ package com.wardiusz.jat.config;
 import com.wardiusz.jat.security.JwtAuthEntryPoint;
 import com.wardiusz.jat.security.JwtAuthFilter;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -63,10 +64,13 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Value("${app.cors.allowed-origins}")
+    private List<String> allowedOrigins;
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("https://jat-demo.wardiusz.dev"));
+        config.setAllowedOrigins(allowedOrigins);
         config.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE","OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setExposedHeaders(List.of("Set-Cookie"));
