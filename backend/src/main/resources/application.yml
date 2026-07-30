@@ -45,7 +45,7 @@ app:
     cookie:
         secure: ${COOKIE_SECURE:false}
     cors:
-        allowed-origins: "https://jat-demo.wardiusz.dev"
+        allowed-origins: "https://jat.wardiusz.dev"
 server:
     tomcat:
         threads:
