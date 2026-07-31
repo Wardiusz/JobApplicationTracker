@@ -23,6 +23,9 @@ jobs:
           java-version: '25'
           cache: maven
 
+      - name: Download Maven dependencies
+        run: mvn -B dependency:resolve
+
       - name: Grant execute on mvnw
         run: chmod +x mvnw
 
