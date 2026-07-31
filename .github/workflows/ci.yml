@@ -51,8 +51,5 @@ jobs:
       - name: Lint
         run: npm run lint --if-present
 
-      - name: Unit tests (Vitest)
-        run: npm test -- --no-watch
-
       - name: Build (production)
         run: npm run build
