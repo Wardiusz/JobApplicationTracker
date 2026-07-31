@@ -2,9 +2,9 @@ name: ci.yml
 
 on:
   push:
-    branches: [main]
+    branches: [main, master]
   pull_request:
-    branches: [main]
+    branches: [main, master]
 
 jobs:
   backend:
@@ -28,9 +28,6 @@ jobs:
 
       - name: Build & test
         run: ./mvnw --batch-mode --no-transfer-progress clean verify
-        # clean verify = kompilacja + testy unit (surefire) + integracyjne (failsafe).
-        # Testcontainers działa bez konfiguracji — runner ubuntu-latest ma Dockera.
-        # Jeśli testy integracyjne wymagają Postgresa, użyj Testcontainers albo profilu z H2.
 
   frontend:
     name: Frontend · Angular

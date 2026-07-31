@@ -2,9 +2,9 @@ name: dependency_scan.yml
 
 on:
   push:
-    branches: [main]
+    branches: [main, master]
   pull_request:
-    branches: [main]
+    branches: [main, master]
   schedule:
     - cron: '30 3 * * 1' #  Monday, 03:30
 
