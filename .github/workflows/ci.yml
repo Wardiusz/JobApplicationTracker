@@ -32,6 +32,25 @@ jobs:
       - name: Build & test
         run: ./mvnw --batch-mode --no-transfer-progress clean verify
 
+      - name: Run Trivy (Backend)
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          version: v0.72.0
+          scan-type: fs
+          scan-ref: backend
+          format: sarif
+          output: backend-trivy.sarif
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          scanners: vuln
+          exit-code: '1'
+
+      - name: Upload Backend SARIF
+        if: always() && hashFiles('backend-trivy.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: backend-trivy.sarif
+
   frontend:
     name: Frontend · Angular
     runs-on: ubuntu-latest
@@ -56,3 +75,22 @@ jobs:
 
       - name: Build (production)
         run: npm run build
+
+      - name: Run Trivy (Frontend)
+        uses: aquasecurity/trivy-action@v0
+        with:
+          version: v0.72.0
+          scan-type: fs
+          scan-ref: frontend
+          format: sarif
+          output: frontend-trivy.sarif
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          scanners: vuln
+          exit-code: '1'
+
+      - name: Upload Frontend SARIF
+        if: always() && hashFiles('frontend-trivy.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: frontend-trivy.sarif
