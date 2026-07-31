@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run Trivy filesystem scan
-        uses: aquasecurity/trivy-action@v0.36.0
+        uses: aquasecurity/trivy-action@v0
         with:
           version: v0.72.0
           scan-type: fs
@@ -30,8 +30,12 @@ jobs:
           ignore-unfixed: true
           exit-code: '1'
 
-      - name: Upload Trivy results to Security tab
+      - name: Check generated files
         if: always()
-        uses: github/codeql-action/upload-sarif@v3
+        run: find . -name "*.sarif" -ls
+
+      - name: Upload Trivy results
+        if: always()
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: trivy-results.sarif
