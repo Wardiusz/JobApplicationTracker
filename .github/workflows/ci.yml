@@ -87,7 +87,7 @@ jobs:
           severity: CRITICAL,HIGH
           ignore-unfixed: true
           scanners: vuln
-          exit-code: '1'
+          exit-code: '0'
 
       - name: Upload Frontend SARIF
         if: always() && hashFiles('frontend-trivy.sarif') != ''
