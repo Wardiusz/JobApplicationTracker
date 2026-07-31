@@ -1,4 +1,4 @@
-name: dependency_scan.yml
+name: Dependency scan
 
 on:
   push:
@@ -21,6 +21,7 @@ jobs:
       - name: Run Trivy filesystem scan
         uses: aquasecurity/trivy-action@v0.36.0
         with:
+          version: v0.72.0
           scan-type: fs
           scan-ref: .
           format: sarif
