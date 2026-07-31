@@ -1,4 +1,4 @@
-name: codeql.yml
+name: CodeQL
 
 on:
   push:
